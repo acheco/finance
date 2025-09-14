@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import GuestLayout from "../../../layouts/GuestLayout.vue";
+
 defineProps<{}>()
 </script>
 
 <template>
-  <h1>
-    Login page
-  </h1>
+  <GuestLayout>
+    <h1>Login Page</h1>
+  </GuestLayout>
 </template>
