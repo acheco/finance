@@ -1,65 +1,66 @@
 <script setup lang="ts">
 import GuestLayout from "../../../layouts/GuestLayout.vue";
-import {store} from "@/actions/Laravel/Fortify/Http/Controllers/RegisteredUserController";
-import {Link, useForm} from "@inertiajs/vue3";
+import {Form, Link} from "@inertiajs/vue3";
 import Input from "@/components/ui/Input.vue";
 import Label from "@/components/ui/Label.vue";
 import Button from "@/components/ui/Button.vue";
 import {login} from "@/routes";
-
-defineProps<{}>()
-
-const form = useForm({
-  name: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
-  terms: false,
-});
-
-function submit() {
-  form.submit(store())
-}
-
+import InputError from "@/components/InputError.vue";
+import RegisteredUserController from "@/actions/Laravel/Fortify/Http/Controllers/RegisteredUserController";
+import {PhCircleNotch} from "@phosphor-icons/vue";
 </script>
 
 <template>
   <GuestLayout title="Register">
-    <div class="flex flex-col items-center justify-center bg-white w-full p-4 rounded-lg shadow-sm">
-      <h1 class="font-bold text-[32px] pt-2 text-grey-900 self-start">Sign Up</h1>
-      <form @submit.prevent="submit" class="flex flex-col mt-5 gap-4 w-full">
-        <div>
-          <Label for="name">Name</Label>
-          <Input
-              id="name"
-              type="text"
-              v-model="form.name"
-              required
-              autofocus
-              autocomplete="name"
-              :tabindex="1"
-          />
-        </div>
-        <div>
-          <Label for="email">Email</Label>
-          <Input type="email" name="email" v-model="form.email" required/>
-        </div>
-        <div>
-          <Label for="password">Password</Label>
-          <Input type="password" name="password" v-model="form.password" required/>
-        </div>
-        <div>
-          <Label for="password_confirmation">Confirm Password</Label>
-          <Input type="password" name="password_confirmation" v-model="form.password_confirmation" required/>
-        </div>
-        <Button type="submit" class="mt-4">Create Account</Button>
-        <div class="flex items-center justify-center gap-2 mt-4">
+    <Form
+        v-bind="RegisteredUserController.store.form()"
+        :reset-on-error="['password', 'password_confirmation']"
+        v-slot="{ errors, processing }"
+        class="flex flex-col mt-5 gap-4 w-full"
+    >
+      <div>
+        <Label for="name">Name</Label>
+        <Input
+            id="name"
+            type="text"
+            name="name"
+            required
+            autofocus
+            autocomplete="name"
+            :tabindex="1"
+        />
+        <input-error :message="errors.name"/>
+      </div>
+      <div>
+        <Label for="email">Email</Label>
+        <Input id="email" type="email" name="email" required autocomplete="email" :tabindex="2"/>
+        <input-error :message="errors.email"/>
+      </div>
+      <div>
+        <Label for="password">Password</Label>
+        <Input id="password" type="password" name="password" required autocomplete="new-password" :tabindex="3"/>
+        <input-error :message="errors.password"/>
+      </div>
+      <div>
+        <Label for="password_confirmation">Confirm Password</Label>
+        <Input id="password_confirmation" type="password" name="password_confirmation" required
+               autocomplete="new-password" :tabindex="4"/>
+      </div>
+
+      <Button type="submit" class="mt-4" :disabled="processing">
+        <PhCircleNotch :size="32" v-if="processing" class="h-4 w-4 animate-spin"/>
+        Create Account
+      </Button>
+
+      <div class="flex items-center justify-center gap-2 mt-4">
           <span class="text-sm text-grey-500">
             Already have an account?
           </span>
-          <Link :href="login()" class="underline underline-offset-4 text-sm font-bold transition-colors duration-300 ease-out hover:text-beige-500!">Login</Link>
-        </div>
-      </form>
-    </div>
+        <Link :href="login()"
+              class="underline underline-offset-4 text-sm font-bold transition-colors duration-300 ease-out hover:text-beige-500!">
+          Login
+        </Link>
+      </div>
+    </Form>
   </GuestLayout>
 </template>
