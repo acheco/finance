@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GuestLayout from "../../../layouts/GuestLayout.vue";
+import GuestLayout from "@/layouts/GuestLayout.vue";
 import NewPasswordController from "@/actions/Laravel/Fortify/Http/Controllers/NewPasswordController";
 import {Form} from "@inertiajs/vue3";
 import Label from "@/components/ui/Label.vue";

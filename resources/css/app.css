@@ -9,7 +9,6 @@
 @theme {
     --font-sans: 'Public Sans', ui-sans-serif;
 
-
     /*Beige colors*/
     --color-beige-100: #F8F4F0;
     --color-beige-500: #98908B;
@@ -27,5 +26,8 @@
     --color-navy: #626070;
     --color-red: #C94736;
     --color-purple: #826CB0;
+
+    --color-muted: #2A2A2A;
+    --color-muted-foreground: #A3A3A3;
 
 }

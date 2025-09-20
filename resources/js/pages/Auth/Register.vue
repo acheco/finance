@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GuestLayout from "../../../layouts/GuestLayout.vue";
+import GuestLayout from "@/layouts/GuestLayout.vue";
 import {Form, Link} from "@inertiajs/vue3";
 import Input from "@/components/ui/Input.vue";
 import Label from "@/components/ui/Label.vue";
@@ -16,7 +16,7 @@ import {PhCircleNotch} from "@phosphor-icons/vue";
         v-bind="RegisteredUserController.store.form()"
         :reset-on-error="['password', 'password_confirmation']"
         v-slot="{ errors, processing }"
-        class="flex flex-col mt-5 gap-4 w-full"
+        class="flex flex-col gap-2 w-full"
     >
       <div>
         <Label for="name">Name</Label>

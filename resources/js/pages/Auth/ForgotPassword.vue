@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import GuestLayout from "../../../layouts/GuestLayout.vue";
+import GuestLayout from "@/layouts/GuestLayout.vue";
 import PasswordResetLinkController from "@/actions/Laravel/Fortify/Http/Controllers/PasswordResetLinkController";
 import {Form, Link} from "@inertiajs/vue3";
 import Input from "@/components/ui/Input.vue";

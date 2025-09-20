@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GuestLayout from "../../../layouts/GuestLayout.vue";
+import GuestLayout from "@/layouts/GuestLayout.vue";
 import {Form, Link} from "@inertiajs/vue3";
 import Label from "@/components/ui/Label.vue";
 import Input from "@/components/ui/Input.vue";
@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button.vue";
 import AuthenticatedSessionController from "@/actions/Laravel/Fortify/Http/Controllers/AuthenticatedSessionController";
 import {request} from "@/routes/password";
 import {PhCircleNotch} from "@phosphor-icons/vue";
+import {cn} from "@/lib/utils";
 
 defineProps<{
   canResetPassword?: boolean;
@@ -45,7 +46,12 @@ defineProps<{
         </Label>
       </div>
 
-      <Button type="submit" class="mt-4" :disabled="processing">
+      <Button
+          type="submit"
+          class="mt-4"
+          :disabled="processing"
+          :class="cn({'cursor-not-allowed opacity-50': processing})"
+      >
         <PhCircleNotch :size="32" v-if="processing" class="h-4 w-4 animate-spin"/>
         Login
       </Button>
@@ -54,8 +60,10 @@ defineProps<{
           <span class="text-sm text-grey-500">
             Need to create an account?
           </span>
-        <Link :href="register()"
-              class="underline underline-offset-4 text-sm font-bold transition-colors duration-300 ease-out hover:text-beige-500!">
+        <Link
+            :href="register()"
+            class="underline underline-offset-4 text-sm font-bold transition-colors duration-300 ease-out hover:text-beige-500!"
+        >
           Sign Up
         </Link>
       </div>
