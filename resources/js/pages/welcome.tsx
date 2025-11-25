@@ -1,6 +1,6 @@
-// import AppLogoIcon from '@/components/app-logo-icon';
+import AppLogoIcon from '@/components/app-logo-icon';
 // import {dashboard, login, register} from '@/routes';
-import {type SharedData} from '../types';
+import {type SharedData} from '@/types';
 import {Head, Link, usePage} from '@inertiajs/react';
 import {ArrowsDownUpIcon, ChartBarIcon, ChartDonutIcon,} from '@phosphor-icons/react';
 
@@ -25,7 +25,7 @@ export default function Welcome({
         <header className="mb-6 w-full px-2 text-sm not-has-[nav]:hidden md:max-w-xl lg:max-w-4xl">
           <nav className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              {/*<AppLogoIcon/>*/}
+              <AppLogoIcon/>
               <h1 className="text-2xl font-bold md:text-4xl">Finance</h1>
             </div>
             {auth.user ? (
