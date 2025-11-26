@@ -4,10 +4,11 @@ import {SharedData} from "@/types";
 import {home} from "@/routes";
 
 type AuthLayoutProps = {
+  title: string;
   children: React.ReactNode;
 }
 
-export default function AuthLayout({children}: AuthLayoutProps) {
+export default function AuthLayout({title, children}: AuthLayoutProps) {
 
   const {name} = usePage<SharedData>().props;
 
@@ -49,6 +50,7 @@ export default function AuthLayout({children}: AuthLayoutProps) {
 
       <main className="w-[343px] sm:w-[425px] mx-auto ">
         <div className="w-full flex-1 p-8 bg-white rounded-lg">
+          <h1 className="font-bold text-3xl mb-6 leading-1.2">{title}</h1>
           {children}
         </div>
       </main>

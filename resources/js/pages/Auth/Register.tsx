@@ -1,5 +1,5 @@
 import AuthLayout from "@/layouts/auth-layout";
-import {Form, Link} from "@inertiajs/react";
+import {Form, Head, Link} from "@inertiajs/react";
 import {store} from "@/routes/register";
 import Label from "@/components/ui/Label";
 import Input from "@/components/ui/Input";
@@ -9,8 +9,10 @@ import {login} from "@/routes";
 
 export default function Register() {
   return (
-    <AuthLayout>
-      <h1 className="font-bold text-3xl mb-6 leading-1.2">Sign Up</h1>
+    <AuthLayout title="Sign Up">
+
+      <Head title="Register"/>
+
       <Form {...store.form()}
             resetOnSuccess={['password', 'password_confirmation']}
             resetOnError={['password', 'password_confirmation']}
@@ -30,7 +32,7 @@ export default function Register() {
                   tabIndex={1}
                   autoComplete="name"
                   name="name"
-                  placeholder="Full Name"
+                  placeholder="Jon Doe"
                 />
                 <InputError message={errors.name} className="mt-2"/>
               </div>
@@ -57,7 +59,6 @@ export default function Register() {
                   required
                   tabIndex={3}
                   name="password"
-                  placeholder="Password"
                 />
                 <InputError message={errors.password} className="mt-2"/>
               </div>
@@ -70,12 +71,14 @@ export default function Register() {
                   required
                   tabIndex={4}
                   name="password_confirmation"
-                  placeholder="Confirm Password"
                 />
                 <InputError message={errors.password_confirmation} className="mt-2"/>
               </div>
 
-              <button className="bg-grey-900 text-white font-bold text-sm rounded-md p-4 cursor-pointer">
+              <button
+                disabled={processing}
+                className="bg-grey-900 flex items-center justify-center gap-2 text-white font-bold text-sm rounded-md p-4 cursor-pointer"
+              >
                 {processing && <Spinner/>}
                 Create Account
               </button>
@@ -88,8 +91,6 @@ export default function Register() {
             </div>
           </>
         )}
-
-
       </Form>
     </AuthLayout>
   )

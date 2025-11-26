@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -6,7 +7,7 @@
 @source '../**/*.js';
 
 @theme {
-  --font-sans: 'Public Sans', sans-serif;
+  --font-sans: 'Public Sans';
 
   --color-beige-100: #F8F4F0;
   --color-beige-500: #98908B;
