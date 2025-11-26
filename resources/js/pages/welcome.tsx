@@ -3,6 +3,7 @@ import AppLogoIcon from '@/components/app-logo-icon';
 import {type SharedData} from '@/types';
 import {Head, Link, usePage} from '@inertiajs/react';
 import {ArrowsDownUpIcon, ChartBarIcon, ChartDonutIcon,} from '@phosphor-icons/react';
+import {login, register} from "@/routes";
 
 export default function Welcome({
                                   canRegister = true,
@@ -39,7 +40,7 @@ export default function Welcome({
               <div className="flex items-center gap-4">
                 {canRegister && (
                   <Link
-                    // href={register()}
+                    href={register()}
                     className="inline-block rounded-sm bg-grey-900 px-5 py-1.5 text-sm font-medium text-white hover:bg-black"
                   >
                     Get Stared
@@ -62,7 +63,7 @@ export default function Welcome({
               </p>
               {!auth.user && (
                 <Link
-                  // href={login()}
+                  href={login()}
                   className="text-md inline-block rounded-full bg-grey-900 px-5 py-3 font-medium text-white hover:bg-black md:text-lg"
                 >
                   Start Your Journey
