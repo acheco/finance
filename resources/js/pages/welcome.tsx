@@ -1,8 +1,9 @@
-// import AppLogoIcon from '@/components/app-logo-icon';
+import AppLogoIcon from '@/components/app-logo-icon';
 // import {dashboard, login, register} from '@/routes';
-import {type SharedData} from '../types';
+import {type SharedData} from '@/types';
 import {Head, Link, usePage} from '@inertiajs/react';
 import {ArrowsDownUpIcon, ChartBarIcon, ChartDonutIcon,} from '@phosphor-icons/react';
+import {login, register} from "@/routes";
 
 export default function Welcome({
                                   canRegister = true,
@@ -25,7 +26,7 @@ export default function Welcome({
         <header className="mb-6 w-full px-2 text-sm not-has-[nav]:hidden md:max-w-xl lg:max-w-4xl">
           <nav className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              {/*<AppLogoIcon/>*/}
+              <AppLogoIcon/>
               <h1 className="text-2xl font-bold md:text-4xl">Finance</h1>
             </div>
             {auth.user ? (
@@ -39,7 +40,7 @@ export default function Welcome({
               <div className="flex items-center gap-4">
                 {canRegister && (
                   <Link
-                    // href={register()}
+                    href={register()}
                     className="inline-block rounded-sm bg-grey-900 px-5 py-1.5 text-sm font-medium text-white hover:bg-black"
                   >
                     Get Stared
@@ -62,7 +63,7 @@ export default function Welcome({
               </p>
               {!auth.user && (
                 <Link
-                  // href={login()}
+                  href={login()}
                   className="text-md inline-block rounded-full bg-grey-900 px-5 py-3 font-medium text-white hover:bg-black md:text-lg"
                 >
                   Start Your Journey
