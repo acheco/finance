@@ -1,11 +1,11 @@
 import {Link} from "@inertiajs/react";
 import {logout} from "@/routes";
+import AppLayout from "@/layouts/app-layout";
 
 export default function Dashboard() {
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <AppLayout title="Dashboard">
       <Link href={logout()}>Logout</Link>
-    </div>
+    </AppLayout>
   )
 }
