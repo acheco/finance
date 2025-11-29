@@ -1,24 +1,24 @@
-import AuthLayout from "@/layouts/auth-layout";
-import {Form, Head, Link} from "@inertiajs/react";
-import {store} from "@/routes/login";
-import Label from "@/components/ui/Label";
-import Input from "@/components/ui/Input";
-import InputError from "@/components/input-error";
-import Spinner from "@/components/ui/Spinner";
-import {register} from "@/routes";
+import InputError from '@/components/input-error';
+import Input from '@/components/ui/Input';
+import Label from '@/components/ui/Label';
+import Spinner from '@/components/ui/Spinner';
+import AuthLayout from '@/layouts/auth-layout';
+import { register } from '@/routes';
+import { store } from '@/routes/login';
+import { Form, Head, Link } from '@inertiajs/react';
 
 export default function Login({}) {
   return (
     <AuthLayout title="Login">
+      <Head title="Logi" />
 
-      <Head title="Logi"/>
-
-      <Form {...store.form()}
-            resetOnSuccess={['password']}
-            resetOnError={['password']}
-            className="flex flex-col gap-6"
+      <Form
+        {...store.form()}
+        resetOnSuccess={['password']}
+        resetOnError={['password']}
+        className="flex flex-col gap-6"
       >
-        {({errors, processing}) => (
+        {({ errors, processing }) => (
           <>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
@@ -31,7 +31,7 @@ export default function Login({}) {
                 autoComplete="email"
                 name="email"
               />
-              <InputError message={errors.email} className="mt-2"/>
+              <InputError message={errors.email} className="mt-2" />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
@@ -44,24 +44,27 @@ export default function Login({}) {
                 autoComplete="password"
                 name="password"
               />
-              <InputError message={errors.email} className="mt-2"/>
             </div>
 
             <button
               disabled={processing}
-              className="bg-grey-900 flex items-center justify-center gap-2 text-white font-bold text-sm rounded-md p-4 cursor-pointer"
+              className="flex cursor-pointer items-center justify-center gap-2 rounded-md bg-grey-900 p-4 text-sm font-bold text-white"
             >
-              {processing && <Spinner/>}
+              {processing && <Spinner />}
               Login
             </button>
 
             <div className="flex items-center justify-center gap-2">
-              <span className="text-sm text-beige-500">Need to create an account?</span>
-              <Link href={register()} className="underline font-bold text-sm">Sign Up</Link>
+              <span className="text-sm text-beige-500">
+                Need to create an account?
+              </span>
+              <Link href={register()} className="text-sm font-bold underline">
+                Sign Up
+              </Link>
             </div>
           </>
         )}
       </Form>
     </AuthLayout>
-  )
+  );
 }
