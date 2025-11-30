@@ -1,11 +1,12 @@
 import { Link } from '@inertiajs/react';
+import { Icon } from '@phosphor-icons/react';
 import { clsx } from 'clsx';
 
 type NavbarProps = {
   navbarItems: {
     name: string;
     href: string;
-    icon: any;
+    icon?: Icon;
   }[];
   isSidebarOpen: boolean;
 };
@@ -38,15 +39,29 @@ export default function Navbar({ navbarItems, isSidebarOpen }: NavbarProps) {
               className={clsx('flex items-center gap-2 text-[16px] font-bold')}
               prefetch
             >
-              <item.icon
-                weight="fill"
-                size={24}
-                className={clsx({
-                  'text-green-custom': currentRoute(item.href),
-                  'text-grey-300 hover:text-grey-100': !currentRoute(item.href),
-                })}
-              />
-              {isSidebarOpen && item.name}
+              {item.icon && (
+                <item.icon
+                  weight="fill"
+                  size={24}
+                  className={clsx('flex-shrink-0', {
+                    'text-green-custom': currentRoute(item.href),
+                    'text-grey-300 hover:text-grey-100': !currentRoute(
+                      item.href,
+                    ),
+                  })}
+                />
+              )}
+              <span
+                className={clsx(
+                  'whitespace-nowrap transition-all duration-300',
+                  {
+                    'w-auto opacity-100': isSidebarOpen,
+                    'w-0 overflow-hidden opacity-0': !isSidebarOpen,
+                  },
+                )}
+              >
+                {item.name}
+              </span>
             </Link>
           </div>
         </div>
