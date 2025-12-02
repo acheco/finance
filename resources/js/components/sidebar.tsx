@@ -1,8 +1,7 @@
 import AppLogo from '@/components/app-logo';
-import Avatar from '@/components/avatar';
 import Navbar from '@/components/navbar';
-import { NavbarItem, SharedData } from '@/types';
-import { usePage } from '@inertiajs/react';
+import UserMenu from '@/components/user-menu';
+import { NavbarItem } from '@/types';
 import { clsx } from 'clsx';
 
 type SidebarProps = {
@@ -11,8 +10,6 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ isSidebarOpen, navbarItems }: SidebarProps) {
-  const user = usePage<SharedData>().props.auth.user;
-
   return (
     <>
       {/* Sidebar desktop */}
@@ -22,9 +19,14 @@ export default function Sidebar({ isSidebarOpen, navbarItems }: SidebarProps) {
         )}
       >
         <div className="grid h-dvh grid-cols-1 grid-rows-[100px_1fr_100px] gap-4 text-white">
+          {/* Sidebar Header */}
           <AppLogo isSidebarOpen={isSidebarOpen} />
+
+          {/* Sidebar Content */}
           <Navbar navbarItems={navbarItems} isSidebarOpen={isSidebarOpen} />
-          <Avatar user={user} isSidebarOpen={isSidebarOpen} />
+
+          {/* Sidebar Footer */}
+          <UserMenu isSidebarOpen={isSidebarOpen} />
         </div>
       </aside>
 

@@ -1,26 +1,23 @@
 import { getInitials } from '@/lib/utils';
-import { User } from '@/types';
-import { clsx } from 'clsx';
+import {
+  AvatarFallback,
+  AvatarImage,
+  Avatar as AvatarPrimitive,
+} from '@radix-ui/react-avatar';
+import { ComponentProps } from 'react';
 
-type AvatarProps = {
-  user: User;
-  isSidebarOpen: boolean;
-};
-export default function Avatar({ user, isSidebarOpen }: AvatarProps) {
+interface AvatarProps extends ComponentProps<typeof AvatarPrimitive> {
+  src?: string;
+  alt: string;
+  fallback: string;
+}
+export default function Avatar({ src, alt, fallback, ...props }: AvatarProps) {
   return (
-    <div className="flex items-center gap-3 px-4">
-      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-beige-100 text-grey-900">
-        <span>{getInitials(user.name)}</span>
-      </div>
-      <div
-        className={clsx('transition-all duration-300', {
-          'w-auto opacity-100': isSidebarOpen,
-          'w-0 overflow-hidden opacity-0': !isSidebarOpen,
-        })}
-      >
-        <p className="text-sm font-semibold whitespace-nowrap">{user.name}</p>
-        <p className="text-grey-400 text-xs whitespace-nowrap">{user.email}</p>
-      </div>
-    </div>
+    <AvatarPrimitive {...props}>
+      <AvatarImage src={src} alt={alt} />
+      <AvatarFallback className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-beige-100 text-grey-900">
+        {getInitials(fallback)}
+      </AvatarFallback>
+    </AvatarPrimitive>
   );
 }
