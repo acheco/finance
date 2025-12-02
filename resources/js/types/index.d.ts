@@ -1,3 +1,5 @@
+import { Icon } from '@phosphor-icons/react';
+
 export interface Auth {
   user: User;
 }
@@ -9,6 +11,12 @@ export interface SharedData {
   sidebarOpen: boolean;
 
   [key: string]: unknown;
+}
+
+export interface NavbarItem {
+  name: string;
+  href: string;
+  icon?: Icon;
 }
 
 export interface User {
