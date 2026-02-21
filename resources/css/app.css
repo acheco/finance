@@ -8,14 +8,19 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+    --font-sans: 'Public Sans', sans-serif;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
+
+    --color-beige-100: oklch(0.97 0.0068 67.74);
+    --color-beige-500: hsl(23, 6%, 57%);
+
+    --color-grey-100: hsl(0, 0%, 95%);
+    --color-grey-300: hsl(0, 0%, 70%);
+    --color-grey-500: hsl(0, 0%, 41%);
+    --color-grey-900: hsl(252, 7%, 13%);
 
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -62,12 +67,12 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
+    --background: oklch(0.97 0.0068 67.74);
+    --foreground: oklch(0.2425 0.0095 294.85);
     --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
+    --card-foreground: oklch(0.2425 0.0095 294.85);
     --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
+    --popover-foreground: oklch(0.2425 0.0095 294.85);
     --primary: oklch(0.205 0 0);
     --primary-foreground: oklch(0.985 0 0);
     --secondary: oklch(0.97 0 0);
@@ -88,7 +93,7 @@
     --chart-5: oklch(0.769 0.188 70.08);
     --radius: 0.625rem;
     --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-foreground: oklch(0.2425 0.0095 294.85);
     --sidebar-primary: oklch(0.205 0 0);
     --sidebar-primary-foreground: oklch(0.985 0 0);
     --sidebar-accent: oklch(0.97 0 0);
@@ -98,11 +103,11 @@
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
+    --background: oklch(0.2425 0.0095 294.85);
     --foreground: oklch(0.985 0 0);
-    --card: oklch(0.145 0 0);
+    --card: oklch(0.2425 0.0095 294.85);
     --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.145 0 0);
+    --popover: oklch(0.2425 0.0095 294.85);
     --popover-foreground: oklch(0.985 0 0);
     --primary: oklch(0.985 0 0);
     --primary-foreground: oklch(0.205 0 0);
