@@ -12,6 +12,7 @@ import MobileNav from '@/components/mobile-nav';
 import Sidebar from '@/components/sidebar';
 import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
+import { index as pot } from '@/routes/pots';
 import { edit } from '@/routes/profile';
 
 const navigationItems = [
@@ -32,7 +33,7 @@ const navigationItems = [
   },
   {
     name: 'Pots',
-    href: '#',
+    href: pot().url,
     icon: TipJarIcon,
   },
   {

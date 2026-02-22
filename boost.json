@@ -1,6 +1,7 @@
 {
     "agents": [
-        "gemini"
+        "gemini",
+        "junie"
     ],
     "guidelines": true,
     "herd_mcp": false,
@@ -13,6 +14,8 @@
     "skills": [
         "wayfinder-development",
         "pest-testing",
+        "inertia-react-development",
+        "tailwindcss-development",
         "developing-with-fortify"
     ]
 }
