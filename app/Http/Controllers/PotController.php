@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePotRequest;
 use App\Http\Requests\UpdatePotRequest;
+use App\Http\Resources\PotResource;
 use App\Models\Pot;
 use Auth;
 use Inertia\Inertia;
@@ -15,10 +16,10 @@ class PotController extends Controller
      */
     public function index()
     {
-        $pots = Auth::user()->pots();
+        $pots = Auth::user()->pots()->get();
 
         return Inertia::render('pots/index', [
-            'pots' => $pots,
+            'pots' => PotResource::collection($pots)->resolve(),
         ]);
     }
 

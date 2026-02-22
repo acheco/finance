@@ -39,7 +39,7 @@ class User extends Authenticatable
 
     public function pots(): HasMany
     {
-        return $this->hasMany('Pot');
+        return $this->hasMany(Pot::class);
     }
 
     /**

@@ -14,6 +14,19 @@ class Pot extends Model
         'total_amount',
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'target_amount' => 'float',
+            'total_amount' => 'float',
+        ];
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo('User');
