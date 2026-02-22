@@ -1,5 +1,9 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { ArrowsDownUpIcon, ChartBarIcon, ChartDonutIcon } from '@phosphor-icons/react';
+import {
+  ArrowsDownUpIcon,
+  ChartBarIcon,
+  ChartDonutIcon,
+} from '@phosphor-icons/react';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { dashboard, login, register } from '@/routes';
 

@@ -1,5 +1,12 @@
 import { usePage } from '@inertiajs/react';
-import { ArrowsDownUpIcon, ChartDonutIcon, GearIcon, HouseIcon, ReceiptIcon, TipJarIcon } from '@phosphor-icons/react';
+import {
+  ArrowsDownUpIcon,
+  ChartDonutIcon,
+  GearIcon,
+  HouseIcon,
+  ReceiptIcon,
+  TipJarIcon,
+} from '@phosphor-icons/react';
 import React, { useEffect, useState } from 'react';
 import MobileNav from '@/components/mobile-nav';
 import Sidebar from '@/components/sidebar';
