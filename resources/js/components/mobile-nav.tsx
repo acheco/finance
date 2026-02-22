@@ -1,6 +1,6 @@
-import { cn, isSameUrl } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { Icon } from '@phosphor-icons/react';
+import type { Icon } from '@phosphor-icons/react';
+import { cn, isSameUrl } from '@/lib/utils';
 
 type MobileNavProps = {
   navItems: {

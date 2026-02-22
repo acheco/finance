@@ -1,10 +1,11 @@
 import { usePage } from '@inertiajs/react';
 import { ArrowsDownUpIcon, ChartDonutIcon, GearIcon, HouseIcon, ReceiptIcon, TipJarIcon } from '@phosphor-icons/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MobileNav from '@/components/mobile-nav';
 import Sidebar from '@/components/sidebar';
 import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
+import { edit } from '@/routes/profile';
 
 const navigationItems = [
   {
@@ -34,20 +35,30 @@ const navigationItems = [
   },
   {
     name: 'Settings',
-    href: '#',
+    href: edit().url,
     icon: GearIcon,
   },
 ];
+
+const SIDEBAR_COOKIE_NAME = 'sidebar_state';
+const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 
 export default function AppSidebarNavLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { url } = usePage();
+  const { sidebarOpen } = usePage<{ sidebarOpen: boolean }>().props;
+  const url = usePage().url;
   const appName = usePage<{ name: string }>().props.name;
+  const [isMinimized, setIsMinimized] = useState(!sidebarOpen);
 
-  const [isMinimized, setIsMinimized] = useState(false);
+  useEffect(() => {
+    document.cookie = `${SIDEBAR_COOKIE_NAME}=${!isMinimized}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}; SameSite=Lax`;
+  }, [isMinimized]);
+
+  const isSettingsActive = url.startsWith('/settings');
+  const activeUrl = isSettingsActive ? edit().url : url;
 
   return (
     <div className="flex h-screen flex-col bg-beige-100 lg:grid lg:grid-cols-1 lg:grid-rows-1">
@@ -60,7 +71,7 @@ export default function AppSidebarNavLayout({
         <Sidebar
           appName={appName}
           navigationItems={navigationItems}
-          url={url}
+          url={activeUrl}
           isMinimized={isMinimized}
           setIsMinimized={setIsMinimized}
           className="hidden lg:grid"
@@ -72,7 +83,7 @@ export default function AppSidebarNavLayout({
       </div>
 
       <footer className="shrink-0 bg-grey-900 pt-2 sm:px-2 md:px-5 lg:hidden">
-        <MobileNav navItems={navigationItems} currentPath={url} />
+        <MobileNav navItems={navigationItems} currentPath={activeUrl} />
       </footer>
     </div>
   );

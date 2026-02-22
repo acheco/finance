@@ -3,11 +3,13 @@ import type { SVGAttributes } from 'react';
 type AppLogoIconProps = {
   props?: SVGAttributes<SVGElement>;
   fill?: string;
+  className?: string;
 };
 
 export default function AppLogoIcon({
   props,
   fill = '#000000',
+  className,
 }: AppLogoIconProps) {
   return (
     <svg
@@ -16,6 +18,7 @@ export default function AppLogoIcon({
       width="32"
       height="32"
       fill={fill}
+      className={className}
       viewBox="0 0 256 256"
     >
       <path
