@@ -44,7 +44,7 @@ class PotPolicy
      */
     public function delete(User $user, Pot $pot): bool
     {
-        return false;
+        return $user->id == $pot->user_id;
     }
 
     /**

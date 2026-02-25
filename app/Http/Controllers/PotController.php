@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePotRequest;
 use App\Http\Resources\PotResource;
 use App\Models\Pot;
 use Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class PotController extends Controller
@@ -68,6 +69,11 @@ class PotController extends Controller
      */
     public function destroy(Pot $pot)
     {
-        //
+
+        Gate::authorize('delete', $pot);
+
+        $pot->delete();
+
+        return redirect()->route('pots.index')->with('success', 'Pot deleted successfully');
     }
 }

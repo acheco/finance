@@ -20,7 +20,8 @@ class PotResource extends JsonResource
             'target_amount' => $this->target_amount,
             'total_amount' => $this->total_amount,
             'theme' => $this->theme,
-            'percentage' => $this->target_amount > 0 ? ($this->total_amount / $this->target_amount) * 100 : 0,
+            'percentage' => number_format($this->target_amount > 0 ? ($this->total_amount / $this->target_amount) * 100 : 0,
+                2),
         ];
     }
 }

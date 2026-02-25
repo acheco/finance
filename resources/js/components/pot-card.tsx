@@ -1,4 +1,6 @@
+import { Link } from '@inertiajs/react';
 import { DotsThreeIcon } from '@phosphor-icons/react';
+import potController from '@/actions/App/Http/Controllers/PotController';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -8,9 +10,17 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Progress } from '@/components/ui/progress';
+import { Separator } from '@/components/ui/separator';
 import { currencyFormat } from '@/lib/utils';
 import type { Pot } from '@/types/pot';
+import DeletePotForm from '@/components/delete-pot-form';
 
 export default function PotCard({ pot }: { pot: Pot }) {
   const formattedTarget = currencyFormat(pot.target_amount);
@@ -29,11 +39,24 @@ export default function PotCard({ pot }: { pot: Pot }) {
           <p>{pot.name}</p>
         </CardTitle>
         <CardAction>
-          <DotsThreeIcon
-            size={24}
-            weight="bold"
-            style={{ backgroundColor: 'text-grey-300' }}
-          />
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <DotsThreeIcon
+                size={24}
+                weight="bold"
+                style={{ backgroundColor: 'text-grey-300' }}
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="px-5 py-3">
+              <DropdownMenuItem asChild>
+                <Link href={potController.edit(pot.id)}>Edit Pot</Link>
+              </DropdownMenuItem>
+              <Separator className="my-2" />
+              <DropdownMenuItem asChild>
+                <DeletePotForm pot={pot} />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </CardAction>
       </CardHeader>
       <CardContent>
@@ -63,13 +86,13 @@ export default function PotCard({ pot }: { pot: Pot }) {
       <CardFooter className="flex items-center justify-between gap-4">
         <Button
           size="xl"
-          className="w-full bg-beige-100 font-bold text-grey-900"
+          className="w-full bg-beige-100 font-bold text-grey-900 hover:text-white"
         >
           + Add Money
         </Button>
         <Button
           size="xl"
-          className="w-full bg-beige-100 font-bold text-grey-900"
+          className="w-full bg-beige-100 font-bold text-grey-900 hover:text-white"
         >
           Withdraw
         </Button>

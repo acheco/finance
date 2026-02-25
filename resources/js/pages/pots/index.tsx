@@ -7,11 +7,11 @@ import type { Pot } from '@/types/pot';
 export default function index({ pots }: { pots: Pot[] }) {
   return (
     <AppLayout>
-      <div className="space-y-8">
-        <Header title="Pots">
-          <Button size="xl">+ Add New Pot</Button>
-        </Header>
+      <Header title="Pots" classname="mb-8">
+        <Button size="xl">+ Add New Pot</Button>
+      </Header>
 
+      <div className="gap grid gap-6 lg:grid-cols-2">
         {pots.map((pot) => (
           <PotCard key={pot.id} pot={pot} />
         ))}
