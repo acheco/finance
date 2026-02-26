@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { DotsThreeIcon } from '@phosphor-icons/react';
 import potController from '@/actions/App/Http/Controllers/PotController';
+import DeletePotForm from '@/components/delete-pot-form';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -20,7 +21,6 @@ import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { currencyFormat } from '@/lib/utils';
 import type { Pot } from '@/types/pot';
-import DeletePotForm from '@/components/delete-pot-form';
 
 export default function PotCard({ pot }: { pot: Pot }) {
   const formattedTarget = currencyFormat(pot.target_amount);

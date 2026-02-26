@@ -16,7 +16,7 @@ Route::get('dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('pots', PotController::class);
+    Route::resource('pots', PotController::class)->except('show');
 });
 
 require __DIR__.'/settings.php';

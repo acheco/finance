@@ -59,7 +59,7 @@ enum Colors: string
     {
         return array_map(fn ($case) => [
             'name' => $case->label(),
-            'hex_code' => $case->value,
+            'value' => $case->value,
         ], self::cases());
     }
 

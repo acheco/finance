@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Colors;
 use App\Http\Requests\StorePotRequest;
 use App\Http\Requests\UpdatePotRequest;
 use App\Http\Resources\PotResource;
@@ -17,19 +18,17 @@ class PotController extends Controller
      */
     public function index()
     {
-        $pots = Auth::user()->pots()->get();
-
         return Inertia::render('pots/index', [
-            'pots' => PotResource::collection($pots)->resolve(),
+            'pots' => $this->getPotsResource(),
+            'openModal' => false,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    private function getPotsResource()
     {
-        //
+        $pots = Auth::user()->pots()->get();
+
+        return PotResource::collection($pots)->resolve();
     }
 
     /**
@@ -37,15 +36,26 @@ class PotController extends Controller
      */
     public function store(StorePotRequest $request)
     {
-        //
+        Gate::authorize('create', Pot::class);
+
+        $request->user()->pots()->create($request->validated());
+
+        return redirect()->route('pots.index')->with('success', 'Pot created successfully');
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for creating a new resource.
      */
-    public function show(Pot $pot)
+    public function create()
     {
-        //
+        Gate::authorize('create', Pot::class);
+
+        return Inertia::render('pots/index', [
+            'pots' => $this->getPotsResource(),
+            'themes' => collect(Colors::list()),
+            'mode' => 'create',
+            'openModal' => true,
+        ]);
     }
 
     /**
@@ -53,7 +63,17 @@ class PotController extends Controller
      */
     public function edit(Pot $pot)
     {
-        //
+        Gate::authorize('update', $pot);
+
+        $pots = Auth::user()->pots()->get();
+
+        return Inertia::render('pots/index', [
+            'pot' => $pot,
+            'pots' => $this->getPotsResource(),
+            'themes' => collect(Colors::list()),
+            'mode' => 'edit',
+            'openModal' => true,
+        ]);
     }
 
     /**
@@ -61,7 +81,14 @@ class PotController extends Controller
      */
     public function update(UpdatePotRequest $request, Pot $pot)
     {
-        //
+        Gate::authorize('update', $pot);
+
+        $validated = $request->validated();
+
+        $pot->update($validated);
+
+        return redirect()->route('pots.index')->with('success', 'Pot updated successfully');
+
     }
 
     /**

@@ -12,7 +12,7 @@ class PotPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -20,7 +20,7 @@ class PotPolicy
      */
     public function view(User $user, Pot $pot): bool
     {
-        return false;
+        return $user->id == $pot->user_id;
     }
 
     /**
@@ -28,7 +28,7 @@ class PotPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -36,7 +36,7 @@ class PotPolicy
      */
     public function update(User $user, Pot $pot): bool
     {
-        return false;
+        return $user->id == $pot->user_id;
     }
 
     /**

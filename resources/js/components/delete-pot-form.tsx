@@ -45,7 +45,7 @@ export default function DeletePotForm({ pot }: { pot: Pot }) {
             size="xl"
             onClick={onSubmit}
             disabled={processing}
-            className="w-full bg-red-custom font-bold"
+            className="order-1 w-full bg-red-custom font-bold"
           >
             Yes, Confirm Deletion
           </Button>
@@ -53,7 +53,7 @@ export default function DeletePotForm({ pot }: { pot: Pot }) {
             <Button
               variant="ghost"
               size="xl"
-              className="w-full leading-[150%] tracking-normal text-grey-500"
+              className="w-full leading-[150%] tracking-normal text-grey-500 md:order-1"
             >
               No, I want to go back
             </Button>
