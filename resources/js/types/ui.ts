@@ -12,3 +12,9 @@ export type AuthLayoutProps = {
   title?: string;
   description?: string;
 };
+
+export type FormModalProps = {
+  open: boolean;
+  handleClose: () => void;
+  children: ReactNode;
+};

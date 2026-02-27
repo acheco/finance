@@ -10,3 +10,8 @@ declare module '@inertiajs/core' {
     };
   }
 }
+
+export interface Colors {
+  name: string;
+  hex_code: string;
+}
