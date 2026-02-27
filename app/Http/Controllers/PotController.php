@@ -113,7 +113,7 @@ class PotController extends Controller
         Gate::authorize('update', $pot);
 
         $validated = $request->validate([
-            'amount' => 'required|numeric|min:0.1|max:$pot->total_amount',
+            'amount' => 'required|numeric|min:0.1|max:'.$pot->total_amount,
         ]);
 
         $pot->decrement('total_amount', $validated['amount']);

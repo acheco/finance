@@ -2,8 +2,7 @@ import { Link } from '@inertiajs/react';
 import { DotsThreeIcon } from '@phosphor-icons/react';
 import potController from '@/actions/App/Http/Controllers/PotController';
 import DeletePotForm from '@/components/delete-pot-form';
-import AddMoneyForm from '@/components/pots/add-money-form';
-import { Button } from '@/components/ui/button';
+import PotTransactionForm from '@/components/pots/pot-transaction-form';
 import {
   Card,
   CardAction,
@@ -91,13 +90,8 @@ export default function PotCard({ pot }: { pot: Pot }) {
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-between gap-4">
-        <AddMoneyForm pot={pot} />
-        <Button
-          size="xl"
-          className="w-full cursor-pointer bg-beige-100 font-bold text-grey-900 hover:bg-white hover:ring-1 hover:ring-beige-500 hover:ring-offset-1"
-        >
-          Withdraw
-        </Button>
+        <PotTransactionForm pot={pot} mode="add" />
+        <PotTransactionForm pot={pot} mode="withdraw" />
       </CardFooter>
     </Card>
   );
