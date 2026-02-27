@@ -2,6 +2,7 @@ import { Link } from '@inertiajs/react';
 import { DotsThreeIcon } from '@phosphor-icons/react';
 import potController from '@/actions/App/Http/Controllers/PotController';
 import DeletePotForm from '@/components/delete-pot-form';
+import AddMoneyForm from '@/components/pots/add-money-form';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -44,12 +45,18 @@ export default function PotCard({ pot }: { pot: Pot }) {
               <DotsThreeIcon
                 size={24}
                 weight="bold"
-                style={{ backgroundColor: 'text-grey-300' }}
+                color="hsl(0, 0%, 70%)"
+                className="cursor-pointer"
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="px-5 py-3">
               <DropdownMenuItem asChild>
-                <Link href={potController.edit(pot.id)}>Edit Pot</Link>
+                <Link
+                  href={potController.edit(pot.id)}
+                  className="w-full cursor-pointer text-left focus:bg-white"
+                >
+                  Edit Pot
+                </Link>
               </DropdownMenuItem>
               <Separator className="my-2" />
               <DropdownMenuItem asChild>
@@ -84,15 +91,10 @@ export default function PotCard({ pot }: { pot: Pot }) {
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-between gap-4">
+        <AddMoneyForm pot={pot} />
         <Button
           size="xl"
-          className="w-full bg-beige-100 font-bold text-grey-900 hover:text-white"
-        >
-          + Add Money
-        </Button>
-        <Button
-          size="xl"
-          className="w-full bg-beige-100 font-bold text-grey-900 hover:text-white"
+          className="w-full cursor-pointer bg-beige-100 font-bold text-grey-900 hover:bg-white hover:ring-1 hover:ring-beige-500 hover:ring-offset-1"
         >
           Withdraw
         </Button>

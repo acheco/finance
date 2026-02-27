@@ -54,6 +54,7 @@ export default function Sidebar({
           <Link
             key={index}
             href={item.href}
+            prefetch={true}
             className={cn(
               'flex h-14 items-center gap-2 rounded-r-lg text-grey-300 transition-all duration-300',
               isSameUrl(url, item.href) && 'bg-beige-100 text-grey-900',

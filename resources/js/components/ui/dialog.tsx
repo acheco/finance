@@ -1,8 +1,8 @@
+import { XCircleIcon } from '@phosphor-icons/react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
-import { XCircleIcon } from '@phosphor-icons/react';
 
 function Dialog({
   ...props

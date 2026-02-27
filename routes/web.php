@@ -17,6 +17,8 @@ Route::get('dashboard', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('pots', PotController::class)->except('show');
+    Route::patch('pots/{pot}/add-money', [PotController::class, 'addMoney'])->name('pots.add-money');
+    Route::patch('pots/{pot}/withdraw-money', [PotController::class, 'withdrawMoney'])->name('pots.withdraw-money');
 });
 
 require __DIR__.'/settings.php';

@@ -2,8 +2,8 @@ import { Link, router } from '@inertiajs/react';
 import { TipJarIcon } from '@phosphor-icons/react';
 import PotController from '@/actions/App/Http/Controllers/PotController';
 import FormModal from '@/components/form-modal';
-import PotCard from '@/components/pot-card';
-import PotForm from '@/components/pot-form';
+import PotCard from '@/components/pots/pot-card';
+import PotForm from '@/components/pots/pot-form';
 import { Button } from '@/components/ui/button';
 import {
   Empty,
@@ -59,7 +59,7 @@ export default function index({
           </EmptyContent>
         </Empty>
       ) : (
-        <div className="gap grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-2">
           {pots.map((pot) => (
             <PotCard key={pot.id} pot={pot} />
           ))}

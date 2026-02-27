@@ -25,6 +25,8 @@
     --color-green-custom: hsl(177, 52%, 32%);
     --color-red-custom: hsl(7, 58%, 50%);
 
+    --breakpoint-xs: 23rem;
+
     --color-background: var(--background);
     --color-foreground: var(--foreground);
 
