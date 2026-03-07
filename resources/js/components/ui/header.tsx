@@ -9,7 +9,7 @@ type HeaderProps = {
 
 export default function Header({ title, classname ,children }: HeaderProps)  {
     return (
-      <div className={cn("flex items-center justify-between", classname)}>
+      <div className={cn("flex items-center justify-between mb-8", classname)}>
         <h1 className="text-[32px] leading-[120%] tracking-normal font-bold">{title}</h1>
         {children}
       </div>

@@ -8,7 +8,7 @@ export default function AuthSplitLayout({ children }: AuthLayoutProps) {
   const { name } = usePage().props;
 
   return (
-    <div className="grid h-screen lg:grid-cols-2 xl:grid-cols-[560px_1fr]">
+    <div className="grid h-screen bg-beige-100 lg:grid-cols-2 xl:grid-cols-[560px_1fr]">
       <div className="m-5 hidden rounded-lg bg-grey-900 p-10 text-white lg:flex lg:flex-col lg:content-between dark:border-r">
         <Link href={home()} className="flex items-center text-lg font-medium">
           <AppLogoIcon className="mr-2 size-8 fill-current text-white" />

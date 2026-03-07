@@ -1,9 +1,9 @@
 {
   "mcpServers": {
     "laravel-boost": {
-      "command": "/usr/bin/php",
+      "command": "C:\\Users\\warlo\\.config\\herd\\bin\\php84\\php.exe",
       "args": [
-        "/home/warlock/projects/finance/artisan",
+        "D:\\projects\\finance\\artisan",
         "boost:mcp"
       ]
     }

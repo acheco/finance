@@ -42,6 +42,21 @@ class User extends Authenticatable
         return $this->hasMany(Pot::class);
     }
 
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function allAvailableCategories(): array
+    {
+        return Category::forUser($this->id)->get();
+    }
+
     /**
      * Get the attributes that should be cast.
      *

@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import { index as pot } from '@/routes/pots';
 import { edit } from '@/routes/profile';
+import { index as transactions } from '@/routes/transactions';
 
 const navigationItems = [
   {
@@ -23,7 +24,7 @@ const navigationItems = [
   },
   {
     name: 'Transactions',
-    href: '#',
+    href: transactions().url,
     icon: ArrowsDownUpIcon,
   },
   {
@@ -65,8 +66,10 @@ export default function AppSidebarNavLayout({
     document.cookie = `${SIDEBAR_COOKIE_NAME}=${!isMinimized}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}; SameSite=Lax`;
   }, [isMinimized]);
 
-  const isSettingsActive = url.startsWith('/settings');
-  const activeUrl = isSettingsActive ? edit().url : url;
+  // const isSettingsActive = url.startsWith('/settings');
+  // const activeUrl = isSettingsActive ? edit().url : url;
+  const activeUrl =
+    navigationItems.find((item) => url.startsWith(item.href))?.href || url;
 
   return (
     <div className="flex h-screen flex-col bg-beige-100 lg:grid lg:grid-cols-1 lg:grid-rows-1">

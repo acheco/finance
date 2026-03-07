@@ -1,18 +1,11 @@
-import { Link, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { TipJarIcon } from '@phosphor-icons/react';
 import PotController from '@/actions/App/Http/Controllers/PotController';
 import FormModal from '@/components/form-modal';
 import PotCard from '@/components/pots/pot-card';
 import PotForm from '@/components/pots/pot-form';
 import { Button } from '@/components/ui/button';
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from '@/components/ui/empty';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import Header from '@/components/ui/header';
 import AppLayout from '@/layouts/app-layout';
 import type { PotPageProps } from '@/types/pot';
@@ -34,14 +27,15 @@ export default function index({
 
   return (
     <AppLayout>
-      <Header title="Pots" classname="mb-8">
+      <Head title="Pots" />
+      <Header title="Pots">
         <Button size="xl" asChild>
-          <Link href={PotController.create().url}>+ Add New Pot</Link>
+          <Link href={PotController.create().url}>+ Add New</Link>
         </Button>
       </Header>
 
       {pots.length === 0 ? (
-        <Empty className="border border-dashed">
+        <Empty className="border border-dashed bg-white">
           <EmptyHeader>
             <EmptyMedia variant="icon">
               <TipJarIcon weight="fill" />
@@ -54,7 +48,7 @@ export default function index({
           </EmptyHeader>
           <EmptyContent>
             <Button size="xl" asChild>
-              <Link href={PotController.create().url}>+ Add New Pot</Link>
+              <Link href={PotController.create().url}>+ Add New</Link>
             </Button>
           </EmptyContent>
         </Empty>
