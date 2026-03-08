@@ -111,7 +111,7 @@ export default function index({ transactions }: TransactionPageProps) {
                     >
                       {transaction.category?.image && (
                         <Icon
-                          name={transaction.category.image}
+                          name={transaction.category.image as never}
                           size={24}
                           weight="fill"
                           color="white"
