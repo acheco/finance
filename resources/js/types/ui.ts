@@ -1,4 +1,3 @@
-import type { ColumnDef } from '@tanstack/react-table';
 import type { ReactNode } from 'react';
 import type { BreadcrumbItem } from './navigation';
 
@@ -19,8 +18,3 @@ export type FormModalProps = {
   handleClose: () => void;
   children: ReactNode;
 };
-
-export interface DatatableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}

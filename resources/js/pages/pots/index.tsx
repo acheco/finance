@@ -5,7 +5,14 @@ import FormModal from '@/components/form-modal';
 import PotCard from '@/components/pots/pot-card';
 import PotForm from '@/components/pots/pot-form';
 import { Button } from '@/components/ui/button';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/components/ui/empty';
 import Header from '@/components/ui/header';
 import AppLayout from '@/layouts/app-layout';
 import type { PotPageProps } from '@/types/pot';

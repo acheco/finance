@@ -16,6 +16,7 @@ import {
   EmptyTitle,
 } from '@/components/ui/empty';
 import Header from '@/components/ui/header';
+import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -26,9 +27,26 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
+import { cn, currencyFormat } from '@/lib/utils';
 import type { TransactionPageProps } from '@/types';
 
 export default function index({ transactions }: TransactionPageProps) {
+  const formattedAmount = (amount: number) => {
+    if (amount < 0) {
+      return (
+        <span className="font-bold text-grey-900">
+          {currencyFormat(amount)}
+        </span>
+      );
+    } else {
+      return (
+        <span className="font-bold text-green-custom">
+          +{currencyFormat(amount)}
+        </span>
+      );
+    }
+  };
+
   return (
     <AppLayout>
       <Head title="Transactions" />
@@ -68,20 +86,66 @@ export default function index({ transactions }: TransactionPageProps) {
 
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Transaction Date</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
+              <TableRow className="hidden md:table-row">
+                <TableHead className="text-xs leading-[150%] tracking-normal text-grey-500">
+                  Recipient / Sender
+                </TableHead>
+                <TableHead className="text-xs leading-[150%] tracking-normal text-grey-500">
+                  Category
+                </TableHead>
+                <TableHead className="text-xs leading-[150%] tracking-normal text-grey-500">
+                  Transaction Date
+                </TableHead>
+                <TableHead className="text-right text-xs leading-[150%] tracking-normal text-grey-500">
+                  Amount
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {transactions.data.map((transaction) => (
                 <TableRow key={transaction.id}>
-                  <TableCell>{transaction.name}</TableCell>
-                  <TableCell>{transaction.category?.name}</TableCell>
-                  <TableCell>{transaction.date}</TableCell>
-                  <TableCell align="right">{transaction.amount}</TableCell>
+                  <TableCell className="flex max-w-48 items-center gap-2 md:max-w-full">
+                    <div
+                      className="flex min-h-8 min-w-8 items-center justify-center rounded-full"
+                      style={{ backgroundColor: transaction.category?.color }}
+                    >
+                      {transaction.category?.image && (
+                        <Icon
+                          name={transaction.category.image}
+                          size={24}
+                          weight="fill"
+                          color="white"
+                        />
+                      )}
+                    </div>
+
+                    <div className="flex flex-col gap-1 overflow-hidden">
+                      <span
+                        className={cn(
+                          'leading-[150%] font-bold tracking-normal',
+                        )}
+                      >
+                        {transaction.name}
+                      </span>
+                      <span className="text-xs text-grey-500 md:hidden">
+                        {transaction.category?.name}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="hidden text-xs leading-[150%] tracking-normal text-grey-500 md:table-cell">
+                    {transaction.category?.name}
+                  </TableCell>
+                  <TableCell className="hidden text-xs leading-[150%] tracking-normal text-grey-500 md:table-cell">
+                    {transaction.date}
+                  </TableCell>
+                  <TableCell align="right">
+                    <div className="flex flex-col gap-1">
+                      {formattedAmount(transaction.amount)}
+                      <span className="text-xs text-grey-500 md:hidden">
+                        {transaction.date}
+                      </span>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
