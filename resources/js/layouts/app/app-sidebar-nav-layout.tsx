@@ -11,12 +11,12 @@ import React, { useEffect, useState } from 'react';
 import MobileNav from '@/components/mobile-nav';
 import Sidebar from '@/components/sidebar';
 import { Toaster } from '@/components/ui/sonner';
+import { useToastFlash } from '@/hooks/use-toast-flash';
 import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import { index as pot } from '@/routes/pots';
 import { edit } from '@/routes/profile';
 import { index as transactions } from '@/routes/transactions';
-import { useToastFlash } from '@/hooks/use-toast-flash';
 
 const navigationItems = [
   {
