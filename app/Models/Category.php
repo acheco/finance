@@ -20,6 +20,15 @@ class Category extends Model
         'image',
     ];
 
+    #[Scope]
+    public function forUser($query, $userId): void
+    {
+        $query->where(function ($q) use ($userId) {
+            $q->where('user_id', $userId)
+                ->orWhereNull('user_id');
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -34,14 +43,5 @@ class Category extends Model
     public function systemCategory($query): void
     {
         $query->whereNull('user_id');
-    }
-
-    #[Scope]
-    public function forUser($query, $userId): void
-    {
-        $query->where(function ($q) use ($userId) {
-            $q->where('user_id', $userId)
-                ->orWhereNull('user_id');
-        });
     }
 }

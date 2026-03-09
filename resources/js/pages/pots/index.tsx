@@ -1,18 +1,10 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { TipJarIcon } from '@phosphor-icons/react';
 import PotController from '@/actions/App/Http/Controllers/PotController';
+import EmptyBlock from '@/components/empty-block';
 import FormModal from '@/components/form-modal';
 import PotCard from '@/components/pots/pot-card';
 import PotForm from '@/components/pots/pot-form';
 import { Button } from '@/components/ui/button';
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from '@/components/ui/empty';
 import Header from '@/components/ui/header';
 import AppLayout from '@/layouts/app-layout';
 import type { PotPageProps } from '@/types/pot';
@@ -42,23 +34,14 @@ export default function index({
       </Header>
 
       {pots.length === 0 ? (
-        <Empty className="border border-dashed bg-white">
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <TipJarIcon weight="fill" />
-            </EmptyMedia>
-            <EmptyTitle>No Pots</EmptyTitle>
-            <EmptyDescription>
-              Create a pot to set savings targets. These can help keep you on
-              track as you save for special purchases.
-            </EmptyDescription>
-          </EmptyHeader>
-          <EmptyContent>
-            <Button size="xl" asChild>
-              <Link href={PotController.create().url}>+ Add New</Link>
-            </Button>
-          </EmptyContent>
-        </Empty>
+        <EmptyBlock
+          title="No Pots"
+          description=" Create a pot to set savings targets. These can help keep you on
+              track as you save for special purchases."
+          iconName="TipJarIcon"
+        >
+          <Link href={PotController.create().url}>+ Add New</Link>
+        </EmptyBlock>
       ) : (
         <div className="grid gap-6 lg:grid-cols-2">
           {pots.map((pot) => (

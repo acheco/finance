@@ -1,51 +1,31 @@
-import { Head, Link } from '@inertiajs/react';
-import {
-  FunnelIcon,
-  ReceiptIcon,
-  SortAscendingIcon,
-} from '@phosphor-icons/react';
+import { Head, Link, router } from '@inertiajs/react';
+import { FunnelIcon, SortAscendingIcon } from '@phosphor-icons/react';
 import transactionController from '@/actions/App/Http/Controllers/TransactionController';
+import EmptyBlock from '@/components/empty-block';
+import FormModal from '@/components/form-modal';
 import Pagination from '@/components/pagination';
+import DataTable from '@/components/transactions/data-table';
+import TransactionForm from '@/components/transactions/transaction-form';
 import { Button } from '@/components/ui/button';
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from '@/components/ui/empty';
 import Header from '@/components/ui/header';
-import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { cn, currencyFormat } from '@/lib/utils';
 import type { TransactionPageProps } from '@/types';
 
-export default function index({ transactions }: TransactionPageProps) {
-  const formattedAmount = (amount: number) => {
-    if (amount < 0) {
-      return (
-        <span className="font-bold text-grey-900">
-          {currencyFormat(amount)}
-        </span>
-      );
-    } else {
-      return (
-        <span className="font-bold text-green-custom">
-          +{currencyFormat(amount)}
-        </span>
-      );
-    }
-  };
+export default function index({
+  transaction,
+  transactions,
+  categories,
+  mode,
+  openModal,
+}: TransactionPageProps) {
+  function handleClose() {
+    router.visit(transactionController.index().url, {
+      preserveState: true,
+      preserveScroll: true,
+      replace: true,
+    });
+  }
 
   return (
     <AppLayout>
@@ -57,23 +37,13 @@ export default function index({ transactions }: TransactionPageProps) {
       </Header>
 
       {transactions.data.length === 0 ? (
-        <Empty className="border border-dashed bg-white">
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <ReceiptIcon weight="fill" />
-            </EmptyMedia>
-            <EmptyTitle>No Transactions</EmptyTitle>
-            <EmptyDescription className="max-w-xs text-pretty">
-              Keep track of your spending by adding your first transaction. This
-              will help you manage your finances more effectively.
-            </EmptyDescription>
-          </EmptyHeader>
-          <EmptyContent>
-            <Button size="xl" asChild>
-              <Link href={transactionController.create().url}>+ Add New</Link>
-            </Button>
-          </EmptyContent>
-        </Empty>
+        <EmptyBlock
+          title="No Transactions"
+          description="Keep track of your spending by adding your first transaction. This will help you manage your finances more effectively."
+          iconName="ReceiptIcon"
+        >
+          <Link href={transactionController.create().url}>+ Add New</Link>
+        </EmptyBlock>
       ) : (
         <div className="rounded-xl bg-white px-5 py-6">
           <div className="mb-6 flex items-center justify-between gap-4">
@@ -84,76 +54,18 @@ export default function index({ transactions }: TransactionPageProps) {
             </div>
           </div>
 
-          <Table>
-            <TableHeader>
-              <TableRow className="hidden md:table-row">
-                <TableHead className="text-xs leading-[150%] tracking-normal text-grey-500">
-                  Recipient / Sender
-                </TableHead>
-                <TableHead className="text-xs leading-[150%] tracking-normal text-grey-500">
-                  Category
-                </TableHead>
-                <TableHead className="text-xs leading-[150%] tracking-normal text-grey-500">
-                  Transaction Date
-                </TableHead>
-                <TableHead className="text-right text-xs leading-[150%] tracking-normal text-grey-500">
-                  Amount
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {transactions.data.map((transaction) => (
-                <TableRow key={transaction.id}>
-                  <TableCell className="flex max-w-48 items-center gap-2 md:max-w-full">
-                    <div
-                      className="flex min-h-8 min-w-8 items-center justify-center rounded-full"
-                      style={{ backgroundColor: transaction.category?.color }}
-                    >
-                      {transaction.category?.image && (
-                        <Icon
-                          name={transaction.category.image as never}
-                          size={24}
-                          weight="fill"
-                          color="white"
-                        />
-                      )}
-                    </div>
-
-                    <div className="flex flex-col gap-1 overflow-hidden">
-                      <span
-                        className={cn(
-                          'leading-[150%] font-bold tracking-normal',
-                        )}
-                      >
-                        {transaction.name}
-                      </span>
-                      <span className="text-xs text-grey-500 md:hidden">
-                        {transaction.category?.name}
-                      </span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="hidden text-xs leading-[150%] tracking-normal text-grey-500 md:table-cell">
-                    {transaction.category?.name}
-                  </TableCell>
-                  <TableCell className="hidden text-xs leading-[150%] tracking-normal text-grey-500 md:table-cell">
-                    {transaction.date}
-                  </TableCell>
-                  <TableCell align="right">
-                    <div className="flex flex-col gap-1">
-                      {formattedAmount(transaction.amount)}
-                      <span className="text-xs text-grey-500 md:hidden">
-                        {transaction.date}
-                      </span>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-
+          <DataTable transactions={transactions} />
           <Pagination table={transactions} />
         </div>
       )}
+
+      <FormModal open={openModal} handleClose={handleClose}>
+        <TransactionForm
+          mode={mode}
+          transaction={transaction}
+          categories={categories}
+        />
+      </FormModal>
     </AppLayout>
   );
 }

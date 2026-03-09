@@ -28,7 +28,7 @@ class TransactionPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -36,7 +36,7 @@ class TransactionPolicy
      */
     public function update(User $user, Transaction $transaction): bool
     {
-        return false;
+        return $user->id == $transaction->user_id;
     }
 
     /**
@@ -44,7 +44,7 @@ class TransactionPolicy
      */
     public function delete(User $user, Transaction $transaction): bool
     {
-        return false;
+        return $user->id == $transaction->user_id;
     }
 
     /**
