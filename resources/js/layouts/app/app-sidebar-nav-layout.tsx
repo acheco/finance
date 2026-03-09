@@ -16,6 +16,7 @@ import { dashboard } from '@/routes';
 import { index as pot } from '@/routes/pots';
 import { edit } from '@/routes/profile';
 import { index as transactions } from '@/routes/transactions';
+import { useToastFlash } from '@/hooks/use-toast-flash';
 
 const navigationItems = [
   {
@@ -63,6 +64,8 @@ export default function AppSidebarNavLayout({
   const appName = usePage<{ name: string }>().props.name;
   const [isMinimized, setIsMinimized] = useState(!sidebarOpen);
 
+  useToastFlash();
+
   useEffect(() => {
     document.cookie = `${SIDEBAR_COOKIE_NAME}=${!isMinimized}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}; SameSite=Lax`;
   }, [isMinimized]);
@@ -94,11 +97,11 @@ export default function AppSidebarNavLayout({
         </main>
       </div>
 
+      <Toaster closeButton={true} richColors={true} duration={3000} />
+
       <footer className="shrink-0 bg-grey-900 pt-2 sm:px-2 md:px-5 lg:hidden">
         <MobileNav navItems={navigationItems} currentPath={activeUrl} />
       </footer>
-
-      <Toaster closeButton={true} richColors={true} duration={3000} />
     </div>
   );
 }
