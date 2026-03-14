@@ -19,7 +19,7 @@ export default function MobileNav({ navItems, currentPath }: MobileNavProps) {
           key={index}
           href={item.href}
           className={cn(
-            'xs:w-15 grid h-full w-13 flex-col content-between rounded-t-md md:w-26',
+            'grid h-full w-13 flex-col content-between rounded-t-md xs:w-15 md:w-26',
             isSameUrl(currentPath, item.href) && 'bg-beige-100',
           )}
         >

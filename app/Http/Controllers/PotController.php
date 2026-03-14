@@ -8,8 +8,10 @@ use App\Http\Requests\UpdatePotRequest;
 use App\Http\Resources\PotResource;
 use App\Models\Pot;
 use Auth;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class PotController extends Controller
@@ -27,7 +29,10 @@ class PotController extends Controller
 
     private function getPotsResource()
     {
-        $pots = Auth::user()->pots()->orderBy('created_at', 'desc')->get();
+        $pots = Auth::user()
+            ->pots()
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return PotResource::collection($pots)->resolve();
     }
@@ -39,9 +44,21 @@ class PotController extends Controller
     {
         Gate::authorize('create', Pot::class);
 
-        Auth::user()->pots()->create($request->validated());
+        try {
 
-        return redirect()->route('pots.index')->with('success', 'Pot created successfully');
+            Auth::user()->pots()->create($request->validated());
+
+            return redirect()->route('pots.index')->with('success', 'Pot created successfully');
+        } catch (Exception $e) {
+            Log::error('Error creating pot: '.$e->getMessage(), [
+                'user_id' => Auth::id(),
+                'request_data' => $request->validated(),
+            ]);
+
+            return redirect()->route('pots.index')->with('error',
+                'An error occurred while creating the pot. Please try again later.');
+        }
+
     }
 
     /**
@@ -128,11 +145,22 @@ class PotController extends Controller
     {
         Gate::authorize('update', $pot);
 
-        $validated = $request->validated();
+        try {
 
-        $pot->update($validated);
+            Auth::user()->pots()->update($request->validated());
 
-        return redirect()->route('pots.index')->with('success', 'Pot updated successfully');
+            return redirect()->route('pots.index')->with('success', 'Pot updated successfully');
+
+        } catch (Exception $e) {
+            Log::error('Error updating pot: '.$e->getMessage(), [
+                'user_id' => Auth::id(),
+
+                'request_data' => $request->validated(),
+            ]);
+
+            return redirect()->route('pots.index')->with('error',
+                'An error occurred while updating the pot. Please try again later.');
+        }
 
     }
 }

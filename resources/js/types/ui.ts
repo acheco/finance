@@ -18,3 +18,17 @@ export type FormModalProps = {
   handleClose: () => void;
   children: ReactNode;
 };
+
+export type EmptyBlockProps = {
+  title: string;
+  description: string;
+  iconName: string;
+  children: ReactNode;
+};
+
+export type DatePickerProps = {
+  value?: Date;
+  onChange?: (date: Date | undefined) => void;
+  name?: string;
+  defaultValue?: string | Date;
+};
