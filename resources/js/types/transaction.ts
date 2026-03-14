@@ -12,6 +12,7 @@ export interface Transaction {
   name: string;
   amount: number;
   category_id: string;
+  category: Category;
   date: string;
 }
 
@@ -22,6 +23,17 @@ export interface TransactionPageProps {
   openModal: boolean;
   mode?: 'create' | 'edit';
   [key: string]: unknown;
+}
+
+export interface FilterPanelProps {
+  searchValue: string;
+  handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  currentSort: string;
+  handleSortChange: (sortValue: string) => void;
+  currentCategory: string;
+  handleCategoryChange: (categoryValue: string) => void;
+  categories: Category[];
+  sortOptions: { value: string; label: string }[];
 }
 
 export interface DataTableProps {

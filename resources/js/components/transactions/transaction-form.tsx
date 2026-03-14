@@ -29,9 +29,15 @@ export default function TransactionForm({
   mode,
   categories,
 }: TransactionFormProps) {
-  const [type, setType] = useState('expense');
-
   let formProps: object;
+  const transactionType = transaction
+    ? transaction.amount > 0
+      ? 'income'
+      : 'expense'
+    : 'expense';
+
+  const [type, setType] = useState(transactionType || 'expense');
+
   const formTitle =
     mode === 'create' ? 'Add New Transaction' : 'Edit Transaction';
 

@@ -45,18 +45,40 @@ This project has domain-specific skills available. You MUST activate the relevan
 - Use descriptive names for variables and methods. For example, `isRegisteredForDiscounts`, not `discount()`.
 - Check for existing components to reuse before writing a new one.
 
-## Verification Scripts
+## Project Structure & Patterns
 
-- Do not create verification scripts or tinker when tests cover that functionality and prove they work. Unit and feature tests are more important.
+### Backend Structure
+- Controllers are organized by resource (e.g., `PotController`, `TransactionController`) and placed in `app/Http/Controllers/`.
+- Settings-related endpoints are grouped in a separate `Settings/` directory within Controllers.
+- Enums are placed in `app/Enums/` (e.g., `Colors.php` for enum-based values).
+- Use Form Request classes for validation (e.g., `StorePotRequest`, `UpdatePotRequest` in `app/Http/Requests/`).
+- Use Eloquent API Resources for consistent response formatting (e.g., `PotResource` in `app/Http/Resources/`).
+- Apply authorization using Gates and Policies (`app/Policies/`).
+
+### Frontend Structure
+- Page components live in `resources/js/pages/` organized by feature (e.g., `pots/`, `transactions/`, `settings/`, `auth/`).
+- Reusable UI components are in `resources/js/components/` with a dedicated `ui/` subdirectory for headless primitives (Radix UI components).
+- Feature-specific components are organized in subdirectories (e.g., `components/pots/`, `components/transactions/`).
+- Layout components are in `resources/js/layouts/` (e.g., `app-layout.tsx`, `auth-layout.tsx`).
+- Global actions and utilities are in `resources/js/actions/` and `resources/js/lib/`.
+- Custom React hooks are in `resources/js/hooks/`.
+- Reusable types are in `resources/js/types/`.
+
+### Component Libraries
+- UI components use **Radix UI** (accessible headless primitives) wrapped with Tailwind styling.
+- Icons use **Phosphor Icons** (`@phosphor-icons/react`).
+- Toast notifications use **Sonner**.
+- Components follow shadcn/ui patterns (composable, styled with Tailwind).
+
+## Frontend Bundling
+
+- If the user doesn't see a frontend change reflected in the UI, it could mean they need to run `npm run build`, `npm run dev`, or `composer run dev`. Ask them.
+- For SSR-related changes, rebuild with `npm run build:ssr` to ensure server-side rendering works correctly.
 
 ## Application Structure & Architecture
 
 - Stick to existing directory structure; don't create new base folders without approval.
 - Do not change the application's dependencies without approval.
-
-## Frontend Bundling
-
-- If the user doesn't see a frontend change reflected in the UI, it could mean they need to run `npm run build`, `npm run dev`, or `composer run dev`. Ask them.
 
 ## Documentation Files
 
@@ -191,8 +213,12 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 ## Controllers & Validation
 
+- Organize controllers by resource type (e.g., `PotController` for pot-related endpoints).
 - Always create Form Request classes for validation rather than inline validation in controllers. Include both validation rules and custom error messages.
 - Check sibling Form Requests to see if the application uses array or string based validation rules.
+- Use Eloquent API Resources for consistent response data formatting (e.g., `PotResource::collection($pots)->resolve()`).
+- Return Inertia responses for page renders: `return Inertia::render('page-name', ['data' => $data]);`.
+- Controllers should be thin; move complex logic to model methods or dedicated service classes.
 
 ## Authentication & Authorization
 
