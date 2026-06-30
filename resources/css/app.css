@@ -1,0 +1,113 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme inline {
+    --font-sans: 'Public Sans', sans-serif;
+
+    --color-beige-100: #F8F4F0;
+    --color-beige-500: #98908B;
+
+    --color-grey-100: #F2F2F2;
+    --color-grey-300: #B3B3B3;
+    --color-grey-500: #696868;
+    --color-grey-900: #201F24;
+
+    --color-secondary-green: #277C78;
+    --color-secondary-yellow: #F2CDAC;
+    --color-secondary-cyan: #82C9D7;
+    --color-secondary-navy: #626070;
+    --color-secondary-red: #C94736;
+    --color-secondary-purple: #826CB0;
+
+    --color-other-purple: #AF81BA;
+    --color-other-turquoise: #597C7C;
+    --color-other-orange: #BE6C49;
+    --color-other-brown: #93674F;
+    --color-other-magenta: #967F6F;
+    --color-other-blue: #3F82B2;
+    --color-other-navy-green: #97A0AC;
+    --color-other-army-green: #7F9161;
+    --color-other-gold: #CAB361;
+
+}
+
+@font-face {
+    font-family: 'Public Sans';
+    src: url("/fonts/PublicSans-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@utility font-preset-1 {
+    font-family: var(--font-sans), sans-serif;
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+    font-size: 32px;
+    line-height: 120%;
+    letter-spacing: 0;
+}
+
+@utility font-preset-2 {
+    font-family: var(--font-sans), sans-serif;
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: 0;
+}
+
+@utility font-preset-3 {
+    font-family: var(--font-sans), sans-serif;
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0;
+}
+
+@utility font-preset-4 {
+    font-family: var(--font-sans), sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0;
+}
+
+@utility font-preset-4-bold {
+    font-family: var(--font-sans), sans-serif;
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0;
+}
+
+@utility font-preset-5 {
+    font-family: var(--font-sans), sans-serif;
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+    font-size: 12px;
+    line-height: 150%;
+    letter-spacing: 0;
+}
+
+@utility font-preset-5-bold {
+    font-family: var(--font-sans), sans-serif;
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+    font-size: 12px;
+    line-height: 150%;
+    letter-spacing: 0;
+}
