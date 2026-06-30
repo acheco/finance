@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { Form, Link } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
     Field,
+    FieldDescription,
     FieldError,
     FieldGroup,
     FieldLabel,
@@ -11,8 +11,8 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import AuthLayout from '@/layout/AuthLayout.vue';
-import { register } from '@/routes';
-import { store } from '@/routes/login';
+import { login } from '@/routes';
+import { store } from '@/routes/register';
 </script>
 
 <template>
@@ -20,16 +20,31 @@ import { store } from '@/routes/login';
         <div
             class="w-full space-y-8 rounded-2xl bg-white px-5 py-6 md:max-w-140"
         >
-            <h1 class="font-preset-1">Login</h1>
+            <h1 class="font-preset-1">Sign Up</h1>
             <div>
                 <Form
-                    v-slot="{ processing, errors }"
+                    v-slot="{ errors, processing }"
                     :reset-on-error="['password']"
                     :reset-on-success="['password']"
                     class="space-y-8"
                     v-bind="store.form()"
                 >
                     <FieldGroup>
+                        <Field>
+                            <FieldLabel
+                                class="font-preset-5-bold text-grey-500"
+                                for="name"
+                                >Name</FieldLabel
+                            >
+                            <Input
+                                id="name"
+                                autofocus
+                                name="name"
+                                required
+                                tabindex="1"
+                                type="text"
+                            />
+                        </Field>
                         <Field>
                             <label
                                 class="font-preset-5-bold text-grey-500"
@@ -43,7 +58,7 @@ import { store } from '@/routes/login';
                                 class="py-3"
                                 name="email"
                                 required
-                                tabindex="1"
+                                tabindex="2"
                                 type="email"
                             />
                         </Field>
@@ -52,30 +67,23 @@ import { store } from '@/routes/login';
                         }}</FieldError>
                         <FieldSet class="gap-1">
                             <Field>
-                                <label
+                                <FieldLabel
                                     class="font-preset-5-bold text-grey-500"
                                     for="password"
+                                    >Create Password</FieldLabel
                                 >
-                                    Password
-                                </label>
                                 <Input
                                     id="password"
                                     name="password"
                                     required
-                                    tabindex="2"
+                                    tabindex="3"
                                     type="password"
                                 />
                             </Field>
-                            <Field orientation="horizontal">
-                                <FieldLabel for="remember"
-                                    >Remember me</FieldLabel
-                                >
-                                <Checkbox
-                                    id="remember"
-                                    name="remember"
-                                    tabindex="3"
-                                />
-                            </Field>
+                            <FieldDescription align="end">
+                                Password must be at least 8 characters.
+                            </FieldDescription>
+
                             <FieldError v-if="errors.password">{{
                                 errors.password
                             }}</FieldError>
@@ -86,18 +94,19 @@ import { store } from '@/routes/login';
                         :disabled="processing"
                         class="w-full bg-grey-900"
                         size="xl"
+                        tabindex="4"
                         type="submit"
                     >
-                        Login
+                        Create Account
                     </Button>
                 </Form>
             </div>
             <p class="text-center font-preset-4 text-grey-500">
-                Need to create an account?
+                Already have an account?
                 <Link
-                    :href="register()"
+                    :href="login()"
                     class="font-preset-4-bold text-grey-900 underline"
-                    >Sign Up</Link
+                    >Login</Link
                 >
             </p>
         </div>
