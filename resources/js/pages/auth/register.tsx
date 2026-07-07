@@ -21,10 +21,11 @@ export default function Register({ passwordRules }: Props) {
                 {...store.form()}
                 resetOnSuccess={['password', 'password_confirmation']}
                 disableWhileProcessing
-                className="flex flex-col gap-6"
+                className="flex flex-col gap-6 rounded-lg bg-white px-5 py-6 xl:p-8"
             >
                 {({ processing, errors }) => (
                     <>
+                        <h1 className="preset-1 text-grey-900">Register</h1>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
                                 <Label htmlFor="name">Name</Label>
@@ -45,7 +46,7 @@ export default function Register({ passwordRules }: Props) {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email">Email</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -92,6 +93,7 @@ export default function Register({ passwordRules }: Props) {
 
                             <Button
                                 type="submit"
+                                size={"xl"}
                                 className="mt-2 w-full"
                                 tabIndex={5}
                                 data-test="register-user-button"
@@ -103,8 +105,8 @@ export default function Register({ passwordRules }: Props) {
 
                         <div className="text-center text-sm text-muted-foreground">
                             Already have an account?{' '}
-                            <TextLink href={login()} tabIndex={6}>
-                                Log in
+                            <TextLink href={login()} tabIndex={6} className={"preset-4-bold"}>
+                                Login
                             </TextLink>
                         </div>
                     </>

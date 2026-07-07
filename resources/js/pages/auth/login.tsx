@@ -27,13 +27,14 @@ export default function Login({ status, canResetPassword }: Props) {
             <Form
                 {...store.form()}
                 resetOnSuccess={['password']}
-                className="flex flex-col gap-6"
+                className="flex flex-col gap-6 rounded-lg bg-white px-5 py-6 xl:p-8"
             >
                 {({ processing, errors }) => (
                     <>
+                        <h1 className="preset-1 text-grey-900">Login</h1>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email">Email</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -82,19 +83,24 @@ export default function Login({ status, canResetPassword }: Props) {
 
                             <Button
                                 type="submit"
+                                size="xl"
                                 className="mt-4 w-full"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
                             >
                                 {processing && <Spinner />}
-                                Log in
+                                Login
                             </Button>
                         </div>
 
                         <div className="text-center text-sm text-muted-foreground">
-                            Don't have an account?{' '}
-                            <TextLink href={register()} tabIndex={5}>
+                            Need to create an account?{' '}
+                            <TextLink
+                                href={register()}
+                                tabIndex={5}
+                                className={'preset-4-bold'}
+                            >
                                 Sign up
                             </TextLink>
                         </div>
@@ -110,8 +116,3 @@ export default function Login({ status, canResetPassword }: Props) {
         </>
     );
 }
-
-Login.layout = {
-    title: 'Log in to your account',
-    description: 'Enter your email and password below to log in',
-};

@@ -26,33 +26,41 @@ export default function ConfirmPassword() {
                 separator="Or confirm with password"
             />
 
-            <Form {...store.form()} resetOnSuccess={['password']}>
+            <Form
+                {...store.form()}
+                resetOnSuccess={['password']}
+                className="flex flex-col gap-6 rounded-lg bg-white px-5 py-6 xl:p-8"
+            >
                 {({ processing, errors }) => (
-                    <div className="space-y-6">
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <PasswordInput
-                                id="password"
-                                name="password"
-                                placeholder="Password"
-                                autoComplete="current-password"
-                                autoFocus
-                            />
+                    <>
+                        <h1>Confirm password</h1>
+                        <div className="space-y-6">
+                            <div className="grid gap-2">
+                                <Label htmlFor="password">Password</Label>
+                                <PasswordInput
+                                    id="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    autoComplete="current-password"
+                                    autoFocus
+                                />
 
-                            <InputError message={errors.password} />
-                        </div>
+                                <InputError message={errors.password} />
+                            </div>
 
-                        <div className="flex items-center">
-                            <Button
-                                className="w-full"
-                                disabled={processing}
-                                data-test="confirm-password-button"
-                            >
-                                {processing && <Spinner />}
-                                Confirm password
-                            </Button>
+                            <div className="flex items-center">
+                                <Button
+                                    className="w-full"
+                                    size={'xl'}
+                                    disabled={processing}
+                                    data-test="confirm-password-button"
+                                >
+                                    {processing && <Spinner />}
+                                    Confirm password
+                                </Button>
+                            </div>
                         </div>
-                    </div>
+                    </>
                 )}
             </Form>
         </>
