@@ -18,9 +18,15 @@ export default function VerifyEmail({ status }: { status?: string }) {
                 </div>
             )}
 
-            <Form {...send.form()} className="space-y-6 text-center">
+            <Form
+                {...send.form()}
+                className="flex flex-col gap-6 space-y-6 rounded-lg bg-white px-5 py-6 text-center xl:p-8"
+            >
                 {({ processing }) => (
                     <>
+                        <h1 className="preset-1 text-grey-900">
+                            Email verification
+                        </h1>
                         <Button disabled={processing} variant="secondary">
                             {processing && <Spinner />}
                             Resend verification email
@@ -38,9 +44,3 @@ export default function VerifyEmail({ status }: { status?: string }) {
         </>
     );
 }
-
-VerifyEmail.layout = {
-    title: 'Email verification',
-    description:
-        'Please verify your email address by clicking on the link we just emailed to you.',
-};
