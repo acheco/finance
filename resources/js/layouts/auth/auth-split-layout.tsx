@@ -7,7 +7,7 @@ import type { AuthLayoutProps } from '@/types';
 export default function AuthSplitLayout({ children }: AuthLayoutProps) {
     return (
         <>
-            <div className="flex items-center justify-center bg-grey-900 px-10 py-6 lg:hidden rounded-b-lg">
+            <div className="flex items-center justify-center rounded-b-lg bg-grey-900 px-10 py-6 lg:hidden">
                 <AppLogoIcon />
             </div>
             <div className="relative grid h-dvh grid-cols-1 flex-col items-center justify-center bg-beige-100 px-4 sm:px-0 lg:max-w-none lg:grid-cols-[450px_1fr] lg:px-0 xl:grid-cols-[600px_1fr]">
