@@ -93,7 +93,7 @@ export default function Register({ passwordRules }: Props) {
 
                             <Button
                                 type="submit"
-                                size={"xl"}
+                                size={'xl'}
                                 className="mt-2 w-full"
                                 tabIndex={5}
                                 data-test="register-user-button"
@@ -105,7 +105,11 @@ export default function Register({ passwordRules }: Props) {
 
                         <div className="text-center text-sm text-muted-foreground">
                             Already have an account?{' '}
-                            <TextLink href={login()} tabIndex={6} className={"preset-4-bold"}>
+                            <TextLink
+                                href={login()}
+                                tabIndex={6}
+                                className={'preset-4-bold'}
+                            >
                                 Login
                             </TextLink>
                         </div>
