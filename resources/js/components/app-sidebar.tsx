@@ -1,5 +1,9 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import {
+    BookOpenIcon,
+    SquaresFourIcon,
+    FolderUserIcon,
+} from '@phosphor-icons/react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -19,7 +23,12 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
-        icon: LayoutGrid,
+        icon: SquaresFourIcon,
+    },
+    {
+        title: 'Transactions',
+        href: '#',
+        icon: BookOpenIcon,
     },
 ];
 
@@ -27,12 +36,12 @@ const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
         href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderGit2,
+        icon: FolderUserIcon,
     },
     {
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
+        icon: BookOpenIcon,
     },
 ];
 
@@ -49,7 +58,7 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarContent>
+            <SidebarContent className="py-6">
                 <NavMain items={mainNavItems} />
             </SidebarContent>
 
