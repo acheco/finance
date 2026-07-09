@@ -1,10 +1,13 @@
 import { Link } from '@inertiajs/react';
 import {
-    BookOpenIcon,
-    SquaresFourIcon,
-    FolderUserIcon,
+    ArrowsDownUpIcon,
+    HouseIcon,
+    ChartDonutIcon,
+    TipJarIcon,
+    ReceiptIcon,
 } from '@phosphor-icons/react';
 import AppLogo from '@/components/app-logo';
+import AppLogoIcon from '@/components/app-logo-icon';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -15,44 +18,51 @@ import {
     SidebarHeader,
     SidebarMenu,
     SidebarMenuItem,
+    useSidebar,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: 'Overview',
         href: dashboard(),
-        icon: SquaresFourIcon,
+        icon: HouseIcon,
     },
     {
         title: 'Transactions',
         href: '#',
-        icon: BookOpenIcon,
+        icon: ArrowsDownUpIcon,
+    },
+    {
+        title: 'Budgets',
+        href: '#',
+        icon: ChartDonutIcon,
+    },
+    {
+        title: 'Pots',
+        href: '#',
+        icon: TipJarIcon,
+    },
+    {
+        title: 'Recurring bills',
+        href: '#',
+        icon: ReceiptIcon,
     },
 ];
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderUserIcon,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpenIcon,
-    },
-];
+const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
+    const { open } = useSidebar();
+
     return (
         <Sidebar collapsible="icon" variant="sidebar">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <Link href={dashboard()} prefetch className="">
-                            <AppLogo />
+                            {open ? <AppLogo /> : <AppLogoIcon />}
                         </Link>
                     </SidebarMenuItem>
                 </SidebarMenu>
