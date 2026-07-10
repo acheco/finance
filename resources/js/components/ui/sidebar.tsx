@@ -1,10 +1,9 @@
 import { Slot } from "@radix-ui/react-slot"
 import type { VariantProps} from "class-variance-authority";
 import { cva } from "class-variance-authority"
-import { ArrowSquareLeftIcon, SidebarSimpleIcon } from '@phosphor-icons/react';
+import { ArrowFatLinesLeftIcon, ArrowFatLinesRightIcon, ArrowSquareLeftIcon, SidebarSimpleIcon } from '@phosphor-icons/react';
 import * as React from "react"
 
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import {
@@ -203,7 +202,7 @@ function Sidebar({
 
   return (
     <div
-      className="group peer text-sidebar-foreground hidden md:block"
+      className="group peer text-sidebar-foreground hidden lg:block"
       data-state={state}
       data-collapsible={state === "collapsed" ? collapsible : ""}
       data-variant={variant}
@@ -223,7 +222,7 @@ function Sidebar({
       />
       <div
         className={cn(
-          "fixed inset-y-0 z-10 hidden h-svh w-75 transition-[left,right,width] duration-200 ease-linear md:flex",
+          "fixed inset-y-0 z-10 hidden h-svh w-75 transition-[left,right,width] duration-200 ease-linear lg:flex",
           side === "left"
             ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
             : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
@@ -250,25 +249,28 @@ function SidebarTrigger({
   className,
   onClick,
   ...props
-}: React.ComponentProps<typeof Button>) {
+}: React.ComponentProps<"div">) {
   const { toggleSidebar, isMobile, state } = useSidebar()
 
   return (
-    <Button
+    <div
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
-      variant="ghost"
-      size="icon"
-      className={cn("h-7 w-7", className)}
+      className={cn( "flex items-center justify-start gap-4 px-2 cursor-pointer", className)}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
       }}
       {...props}
     >
-      {isMobile || state === "collapsed" ? <SidebarSimpleIcon  /> : <ArrowSquareLeftIcon />}
+      {isMobile || state === "collapsed" ? <ArrowFatLinesRightIcon size={32} color="#b3b3b3" weight="fill" /> : (
+          <>
+              <ArrowFatLinesLeftIcon size={32} color="#b3b3b3" weight="fill" />
+              <span className="preset-3 text-grey-300">Minimize Menu</span>
+          </>
+      ) }
       <span className="sr-only">Toggle sidebar</span>
-    </Button>
+    </div>
   )
 }
 

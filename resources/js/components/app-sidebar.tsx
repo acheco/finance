@@ -1,14 +1,6 @@
 import { Link } from '@inertiajs/react';
-import {
-    ArrowsDownUpIcon,
-    HouseIcon,
-    ChartDonutIcon,
-    TipJarIcon,
-    ReceiptIcon,
-} from '@phosphor-icons/react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -18,42 +10,14 @@ import {
     SidebarHeader,
     SidebarMenu,
     SidebarMenuItem,
+    SidebarTrigger,
     useSidebar,
 } from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Overview',
-        href: dashboard(),
-        icon: HouseIcon,
-    },
-    {
-        title: 'Transactions',
-        href: '#',
-        icon: ArrowsDownUpIcon,
-    },
-    {
-        title: 'Budgets',
-        href: '#',
-        icon: ChartDonutIcon,
-    },
-    {
-        title: 'Pots',
-        href: '#',
-        icon: TipJarIcon,
-    },
-    {
-        title: 'Recurring bills',
-        href: '#',
-        icon: ReceiptIcon,
-    },
-];
-
-const footerNavItems: NavItem[] = [];
-
-export function AppSidebar() {
+export function AppSidebar({ items }: { items: NavItem[] }) {
     const { open } = useSidebar();
 
     return (
@@ -69,12 +33,12 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent className="py-6">
-                <NavMain items={mainNavItems} />
+                <NavMain items={items} />
             </SidebarContent>
 
-            <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
+            <SidebarFooter className={cn('space-y-6 pb-10', open && 'px-8')}>
                 <NavUser />
+                <SidebarTrigger />
             </SidebarFooter>
         </Sidebar>
     );
