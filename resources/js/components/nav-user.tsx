@@ -1,5 +1,5 @@
 import { usePage } from '@inertiajs/react';
-import { ChevronsUpDown } from 'lucide-react';
+import { CaretUpIcon } from '@phosphor-icons/react';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -14,8 +14,9 @@ import {
 import { UserInfo } from '@/components/user-info';
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
 
-export function NavUser() {
+export function NavUser({ className }: { className?: string }) {
     const { auth } = usePage().props;
     const { state } = useSidebar();
     const isMobile = useIsMobile();
@@ -26,16 +27,23 @@ export function NavUser() {
 
     return (
         <SidebarMenu>
-            <SidebarMenuItem>
+            <SidebarMenuItem className={cn(state === 'collapsed' && 'px-2')}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
                             size="lg"
-                            className="group text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent"
+                            className={cn(
+                                'group text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent',
+                                className,
+                            )}
                             data-test="sidebar-menu-button"
                         >
                             <UserInfo user={auth.user} />
-                            <ChevronsUpDown className="ml-auto size-4" />
+                            <CaretUpIcon
+                                className="ml-auto hidden size-4 lg:block"
+                                weight="fill"
+                                color="#B3B3B3"
+                            />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
