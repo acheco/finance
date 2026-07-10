@@ -50,7 +50,7 @@ export default function AppSidebarLayout({
             <AppSidebar items={mainNavItems} />
             <AppContent
                 variant="sidebar"
-                className="h-screen overflow-x-hidden"
+                className="h-screen space-y-8 overflow-x-hidden bg-beige-100 px-4 py-6 md:px-10 md:py-8"
             >
                 <AppSidebarHeader breadcrumbs={breadcrumbs} />
                 {children}
