@@ -14,8 +14,8 @@ export type Props = {
 const EmptyState = () => {
     return (
         <div className="p-8 text-center">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-muted">
-                <KeyIcon className="h-7 w-7 text-muted-foreground" />
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-grey-900">
+                <KeyIcon className="h-7 w-7 text-white" />
             </div>
             <p className="font-medium">No passkeys yet</p>
             <p className="mt-1 text-sm text-muted-foreground">
