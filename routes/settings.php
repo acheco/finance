@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Settings\AccountsController;
+use App\Http\Controllers\Settings\AccountController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\SecurityController;
 use Illuminate\Auth\Middleware\RequirePassword;
@@ -12,7 +12,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::get('settings/accounts', [AccountsController::class, 'index'])->name('accounts.index');
+    Route::resource('settings/account', AccountController::class);
 
 });
 

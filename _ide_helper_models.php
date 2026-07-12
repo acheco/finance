@@ -14,10 +14,10 @@
 namespace App\Models{
 /**
  * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\AccountsFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Accounts newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Accounts newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Accounts query()
+ * @method static \Database\Factories\AccountFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account query()
  */
 	class Accounts extends \Eloquent {}
 }
@@ -35,7 +35,7 @@ namespace App\Models{
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property \Carbon\CarbonImmutable|null $two_factor_confirmed_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Accounts> $accounts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Account> $accounts
  * @property-read int|null $accounts_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count

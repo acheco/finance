@@ -54,8 +54,8 @@ export default function AppSidebarLayout({
             >
                 <AppSidebarHeader breadcrumbs={breadcrumbs} />
                 {children}
+                <AppMobileNavbar items={mainNavItems} />
             </AppContent>
-            <AppMobileNavbar items={mainNavItems} />
         </AppShell>
     );
 }

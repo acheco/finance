@@ -1,0 +1,89 @@
+import { Link } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { create } from '@/routes/account';
+
+export interface ColumnDef<TData> {
+    key: string;
+    header: string;
+    render?: (row: TData) => React.ReactNode;
+    className?: string;
+}
+
+interface DataTableProps<TData> {
+    columns: ColumnDef<TData>[];
+    data: TData[];
+    rowKey: (row: TData) => string | number;
+    emptyMessage?: string;
+}
+
+export function DataTable<TData extends Record<string, any>>({
+    columns,
+    data,
+    rowKey,
+    emptyMessage = 'Not Data Available',
+}: DataTableProps<TData>) {
+    return (
+        <div>
+            <div className="mb-4 flex items-center justify-between gap-6">
+                <Input placeholder="Search..." />
+                <Button size="lg" asChild>
+                    <Link href={create()} prefetch>
+                        Add Account
+                    </Link>
+                </Button>
+            </div>
+            <div className="rounded-md border">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            {columns.map((column) => (
+                                <TableHead
+                                    key={column.key}
+                                    className={column.className}
+                                >
+                                    {column.header}
+                                </TableHead>
+                            ))}
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {data.length ? (
+                            data.map((row) => (
+                                <TableRow key={rowKey(row)}>
+                                    {columns.map((column) => (
+                                        <TableCell
+                                            key={column.key}
+                                            className={column.className}
+                                        >
+                                            {column.render
+                                                ? column.render(row)
+                                                : row[column.key]}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell
+                                    colSpan={columns.length}
+                                    className="h-24 text-center"
+                                >
+                                    {emptyMessage}
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+        </div>
+    );
+}

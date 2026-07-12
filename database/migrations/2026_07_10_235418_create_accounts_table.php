@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->string('name')->comment('Account name');
+            $table->string('name')->comment('Index name');
             $table->string('type')->default('cash')->comment('cash, bank, credit_card, etc.');
             $table->decimal('balance', 15, 2)->default(0.00);
             $table->string('color', 7)->default('#000000')->nullable()->comment('Hex color code');
