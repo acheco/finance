@@ -18,6 +18,7 @@ class AccountFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => 1,
             'name' => fake()->words(2, true),
             'type' => fake()->randomElement(['cash', 'bank', 'credit_card']),
             'balance' => fake()->randomFloat(2, 0, 10000),

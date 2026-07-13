@@ -14,6 +14,7 @@ import { DynamicIcon } from '@/components/ui/icon';
 import { cn, currencyFormatter } from '@/lib/utils';
 import { create } from '@/routes/account';
 import type { Account } from '@/types/account';
+import DeleteAccount from '@/components/modals/DeleteAccount';
 
 export const AccountColumns: ColumnDef<Account>[] = [
     {
@@ -84,16 +85,8 @@ export const AccountColumns: ColumnDef<Account>[] = [
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                        variant="destructive"
-                        onSelect={() =>
-                            router.delete(
-                                AccountController.destroy.url(account.id),
-                                { preserveScroll: true },
-                            )
-                        }
-                    >
-                        Delete Account
+                    <DropdownMenuItem asChild>
+                        <DeleteAccount account={account.id} />
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

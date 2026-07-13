@@ -1,11 +1,11 @@
 export interface PaginationLink {
     url: string | null;
     label: string;
+    page: number | null;
     active: boolean;
 }
 
-export interface PaginatedResponse<T> {
-    data: T[];
+export interface PaginationMeta {
     current_page: number;
     first_page_url: string;
     from: number | null;
@@ -18,4 +18,8 @@ export interface PaginatedResponse<T> {
     prev_page_url: string | null;
     to: number | null;
     total: number;
+}
+
+export interface PaginatedResponse<T> extends PaginationMeta {
+    data: T[];
 }

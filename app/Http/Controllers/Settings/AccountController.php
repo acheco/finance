@@ -20,10 +20,18 @@ class AccountController extends Controller
     {
         $user = auth()->user();
 
-        $accounts = Account::whereBelongsTo($user)->where('is_active', true)->paginate(10);
+        $accounts = Account::whereBelongsTo($user)
+            ->where('is_active', true)
+            ->when(request('search'), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('type', 'like', "%{$search}%");
+            })
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('settings/account/index', [
             'accounts' => $accounts,
+            'filters' => request()->only(['search']),
         ]);
     }
 
@@ -76,6 +84,8 @@ class AccountController extends Controller
 
         $account->delete();
 
-        return to_route('account.index')->with('success', 'Account deleted successfully.');
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Account deleted.')]);
+
+        return to_route('account.index');
     }
 }

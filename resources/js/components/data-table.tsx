@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import DataTablePagination from '@/components/data-table-pagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -10,6 +11,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { create } from '@/routes/account';
+import type { PaginationMeta } from '@/types/pagination';
 
 export interface ColumnDef<TData> {
     key: string;
@@ -21,20 +23,31 @@ export interface ColumnDef<TData> {
 interface DataTableProps<TData> {
     columns: ColumnDef<TData>[];
     data: TData[];
+    pagination?: PaginationMeta;
     rowKey: (row: TData) => string | number;
     emptyMessage?: string;
+    search?: string;
+    setSearch?: (search: string) => void;
 }
 
 export function DataTable<TData extends Record<string, any>>({
     columns,
     data,
+    pagination,
     rowKey,
     emptyMessage = 'Not Data Available',
+    search,
+    setSearch,
 }: DataTableProps<TData>) {
     return (
         <div>
             <div className="mb-4 flex items-center justify-between gap-6">
-                <Input placeholder="Search..." />
+                <Input
+                    type="text"
+                    placeholder="Search..."
+                    value={search}
+                    onChange={(e) => setSearch?.(e.target.value)}
+                />
                 <Button size="lg" asChild>
                     <Link href={create()} prefetch>
                         Add Account
@@ -84,6 +97,12 @@ export function DataTable<TData extends Record<string, any>>({
                     </TableBody>
                 </Table>
             </div>
+
+            {pagination && (
+                <div className="mt-4 flex items-center justify-between">
+                    <DataTablePagination pagination={pagination} />
+                </div>
+            )}
         </div>
     );
 }
