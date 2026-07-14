@@ -12,7 +12,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::resource('settings/account', AccountController::class);
+    Route::resource('settings/account', AccountController::class)->only(['index', 'store', 'update', 'destroy']);
 
 });
 

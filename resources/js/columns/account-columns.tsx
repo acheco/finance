@@ -1,7 +1,7 @@
-import { Link, router } from '@inertiajs/react';
 import { DotsThreeIcon } from '@phosphor-icons/react';
-import AccountController from '@/actions/App/Http/Controllers/Settings/AccountController';
 import type { ColumnDef } from '@/components/data-table';
+import AccountForm from '@/components/modals/AccountForm';
+import DeleteAccount from '@/components/modals/DeleteAccount';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -12,9 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DynamicIcon } from '@/components/ui/icon';
 import { cn, currencyFormatter } from '@/lib/utils';
-import { create } from '@/routes/account';
 import type { Account } from '@/types/account';
-import DeleteAccount from '@/components/modals/DeleteAccount';
 
 export const AccountColumns: ColumnDef<Account>[] = [
     {
@@ -76,13 +74,9 @@ export const AccountColumns: ColumnDef<Account>[] = [
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuItem asChild>
-                        <Link
-                            href={create()}
-                            className="cursor-pointer"
-                            prefetch
-                        >
-                            Edit Account
-                        </Link>
+                        <AccountForm account={account}>
+                            <Button variant="ghost">Edit Account</Button>
+                        </AccountForm>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>

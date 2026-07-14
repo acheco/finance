@@ -1,5 +1,5 @@
-import { Link } from '@inertiajs/react';
 import DataTablePagination from '@/components/data-table-pagination';
+import AccountForm from '@/components/modals/AccountForm';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -10,7 +10,6 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { create } from '@/routes/account';
 import type { PaginationMeta } from '@/types/pagination';
 
 export interface ColumnDef<TData> {
@@ -35,7 +34,7 @@ export function DataTable<TData extends Record<string, any>>({
     data,
     pagination,
     rowKey,
-    emptyMessage = 'Not Data Available',
+    emptyMessage = 'Data not found.',
     search,
     setSearch,
 }: DataTableProps<TData>) {
@@ -48,12 +47,12 @@ export function DataTable<TData extends Record<string, any>>({
                     value={search}
                     onChange={(e) => setSearch?.(e.target.value)}
                 />
-                <Button size="lg" asChild>
-                    <Link href={create()} prefetch>
-                        Add Account
-                    </Link>
-                </Button>
+
+                <AccountForm>
+                    <Button size="lg">Add account</Button>
+                </AccountForm>
             </div>
+
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>

@@ -1,7 +1,6 @@
 import { Link } from '@inertiajs/react';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -13,7 +12,7 @@ import {
 import { cn } from '@/lib/utils';
 import { destroy } from '@/routes/account';
 
-export default function DeleteAccount({account}: { account: number}) {
+export default function DeleteAccount({ account }: { account: number }) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -37,9 +36,12 @@ export default function DeleteAccount({account}: { account: number}) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <Link href={destroy(account)} className="bg-secondary-red rounded-md text-white hover:bg-secondary-red/90 px-4">
-                            Delete
-                        </Link>
+                    <Link
+                        href={destroy(account)}
+                        className="rounded-md bg-secondary-red px-4 text-white hover:bg-secondary-red/90"
+                    >
+                        Delete
+                    </Link>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

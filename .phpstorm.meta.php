@@ -3059,10 +3059,9 @@ namespace PHPSTORM_META {
 'passkey.login-options','passkey.login','passkey.confirm-options','passkey.confirm','passkey.registration-options',
 'passkey.store','passkey.destroy',
 'telescope','home','dashboard',
-'profile.edit','profile.update','account.index','account.create','account.store',
-'account.show','account.edit','account.update','account.destroy','profile.destroy',
-'security.edit','user-password.update','appearance.edit','well-known.passkeys','storage.local',
-'storage.local.upload',);
+'profile.edit','profile.update','account.index','account.store','account.update',
+'account.destroy','profile.destroy','security.edit','user-password.update','appearance.edit',
+'well-known.passkeys','storage.local','storage.local.upload',);
         registerArgumentsSet('views', 
 'app','laravel-exceptions-renderer::components.badge','laravel-exceptions-renderer::components.empty-state','laravel-exceptions-renderer::components.file-with-line','laravel-exceptions-renderer::components.formatted-source',
 'laravel-exceptions-renderer::components.frame','laravel-exceptions-renderer::components.frame-code','laravel-exceptions-renderer::components.header','laravel-exceptions-renderer::components.http-method','laravel-exceptions-renderer::components.icons.alert',

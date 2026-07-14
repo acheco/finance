@@ -1,6 +1,6 @@
 import { Head, router } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
-import { AccountColumns } from '@/columns/Accounts';
+import { AccountColumns } from '@/columns/account-columns';
 import { DataTable } from '@/components/data-table';
 import Heading from '@/components/heading';
 import type { PaginatedAccount } from '@/types/account';
@@ -17,19 +17,17 @@ export default function Index({ accounts, filters }: Account) {
 
     const { data, ...pagination } = accounts;
 
-
     useEffect(() => {
         const timeout = setTimeout(() => {
             router.get(
                 '/settings/account',
-                { search, page: pagination.current_page },
+                { search },
                 { preserveState: true, preserveScroll: true, replace: true },
             );
         }, 300);
 
         return () => clearTimeout(timeout);
-    }, [search, pagination.current_page]);
-
+    }, [search]);
 
     return (
         <div className="max-w-4xl space-y-6">
@@ -46,22 +44,16 @@ export default function Index({ accounts, filters }: Account) {
             </div>
 
             <div>
-                {data.length === 0 ? (
-                    <div className="flex h-full flex-col items-center justify-center gap-4">
-                        account not found
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 gap-4 rounded-md bg-white px-2 py-4 md:px-4 md:py-6 xl:px-6 xl:py-8">
-                        <DataTable
-                            data={data}
-                            pagination={pagination}
-                            columns={AccountColumns}
-                            rowKey={(account) => account.id}
-                            search={search}
-                            setSearch={setSearch}
-                        />
-                    </div>
-                )}
+                <div className="grid grid-cols-1 gap-4 rounded-md bg-white px-2 py-4 md:px-4 md:py-6 xl:px-6 xl:py-8">
+                    <DataTable
+                        data={data}
+                        pagination={pagination}
+                        columns={AccountColumns}
+                        rowKey={(account) => account.id}
+                        search={search}
+                        setSearch={setSearch}
+                    />
+                </div>
             </div>
         </div>
     );

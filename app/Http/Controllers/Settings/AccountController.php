@@ -23,10 +23,11 @@ class AccountController extends Controller
         $accounts = Account::whereBelongsTo($user)
             ->where('is_active', true)
             ->when(request('search'), function ($query, $search) {
-                $query->where('name', 'like', "%{$search}%")
-                    ->orWhere('type', 'like', "%{$search}%");
+                $query->where('name', 'ilike', "%{$search}%")
+                    ->orWhere('type', 'ilike', "%{$search}%");
             })
             ->paginate(10)
+            ->onEachSide(0)
             ->withQueryString();
 
         return Inertia::render('settings/account/index', [
@@ -36,43 +37,34 @@ class AccountController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAccountRequest $request)
+    public function store(StoreAccountRequest $request): RedirectResponse
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Account $account)
-    {
-        //
-    }
+        Gate::authorize('create', Account::class);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Account $account)
-    {
-        //
+        $user = auth()->user();
+
+        $user->account()->create($request->validated());
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Account created.')]);
+
+        return to_route('account.index');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAccountRequest $request, Account $account)
+    public function update(UpdateAccountRequest $request, Account $account): RedirectResponse
     {
-        //
+        Gate::authorize('update', $account);
+
+        $account->update($request->validated());
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Account updated.')]);
+
+        return to_route('account.index');
     }
 
     /**
