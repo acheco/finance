@@ -1,5 +1,10 @@
 import type { PaginatedResponse } from '@/types/pagination';
 
+export type AccountTypeOption = {
+    value: string;
+    label: string;
+};
+
 export interface Account {
     id: number;
     name: string;

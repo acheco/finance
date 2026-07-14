@@ -1,4 +1,4 @@
-import { Form } from '@inertiajs/react';
+import { Form, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import AccountController from '@/actions/App/Http/Controllers/Settings/AccountController';
@@ -25,14 +25,6 @@ import {
 } from '@/components/ui/select';
 import type { Account } from '@/types/account';
 
-const ACCOUNT_TYPES = [
-    { value: 'cash', label: 'Cash' },
-    { value: 'bank', label: 'Bank' },
-    { value: 'credit_card', label: 'Credit Card' },
-    { value: 'debit_card', label: 'Debit Card' },
-    { value: 'investment', label: 'Investment' },
-];
-
 export default function AccountForm({
     account,
     children,
@@ -40,6 +32,7 @@ export default function AccountForm({
     account?: Account;
     children: ReactNode;
 }) {
+    const { accountTypes } = usePage().props;
     const [open, setOpen] = useState(false);
     const isEditing = Boolean(account);
 
@@ -84,14 +77,14 @@ export default function AccountForm({
                                 <Select
                                     name="type"
                                     defaultValue={
-                                        account?.type ?? ACCOUNT_TYPES[0].value
+                                        account?.type ?? accountTypes[0].value
                                     }
                                 >
                                     <SelectTrigger id="type" className="w-full">
                                         <SelectValue placeholder="Select a type" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {ACCOUNT_TYPES.map((type) => (
+                                        {accountTypes.map((type) => (
                                             <SelectItem
                                                 key={type.value}
                                                 value={type.value}
