@@ -2,6 +2,7 @@ import { Form, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import AccountController from '@/actions/App/Http/Controllers/Settings/AccountController';
+import IconPicker from '@/components/icon-picker';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,6 +25,21 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import type { Account } from '@/types/account';
+
+const icons = [
+    'WalletIcon',
+    'BankIcon',
+    'CreditCardIcon',
+    'PiggyBankIcon',
+    'CoinsIcon',
+    'MoneyIcon',
+    'CurrencyDollarIcon',
+    'ChartLineIcon',
+    'BriefcaseIcon',
+    'HandCoinsIcon',
+    'VaultIcon',
+    'ShoppingCartIcon',
+] as const;
 
 export default function AccountForm({
     account,
@@ -60,16 +76,23 @@ export default function AccountForm({
                 >
                     {({ processing, errors }) => (
                         <>
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
-                                <Input
-                                    id="name"
-                                    name="name"
-                                    defaultValue={account?.name}
-                                    placeholder="Account name"
-                                    required
-                                />
-                                <InputError message={errors.name} />
+                            <div className="flex gap-2">
+                                <div className="grid w-full gap-2">
+                                    <Label htmlFor="name">Name</Label>
+                                    <Input
+                                        id="name"
+                                        name="name"
+                                        defaultValue={account?.name}
+                                        placeholder="Account name"
+                                        required
+                                    />
+                                    <InputError message={errors.name} />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="icon">Icon</Label>
+                                    <IconPicker iconNames={icons} name="icon" />
+                                    <InputError message={errors.icon} />
+                                </div>
                             </div>
 
                             <div className="grid gap-2">
@@ -124,17 +147,6 @@ export default function AccountForm({
                                         }
                                     />
                                     <InputError message={errors.color} />
-                                </div>
-
-                                <div className="grid gap-2">
-                                    <Label htmlFor="icon">Icon</Label>
-                                    <Input
-                                        id="icon"
-                                        name="icon"
-                                        defaultValue={account?.icon ?? ''}
-                                        placeholder="Wallet"
-                                    />
-                                    <InputError message={errors.icon} />
                                 </div>
                             </div>
 
