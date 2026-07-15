@@ -22,7 +22,7 @@ export default function Security(props: Props) {
     const currentPasswordInput = useRef<HTMLInputElement>(null);
 
     return (
-        <>
+        <div className="max-w-2xl space-y-6">
             <Head title="Security settings" />
 
             <h1 className="sr-only">Security settings</h1>
@@ -67,7 +67,7 @@ export default function Security(props: Props) {
                                     id="current_password"
                                     ref={currentPasswordInput}
                                     name="current_password"
-                                    className="mt-1 block w-full"
+                                    className="mt-1 block w-full bg-white"
                                     autoComplete="current-password"
                                     placeholder="Current password"
                                 />
@@ -82,7 +82,7 @@ export default function Security(props: Props) {
                                     id="password"
                                     ref={passwordInput}
                                     name="password"
-                                    className="mt-1 block w-full"
+                                    className="mt-1 block w-full bg-white"
                                     autoComplete="new-password"
                                     placeholder="New password"
                                     passwordrules={props.passwordRules}
@@ -99,7 +99,7 @@ export default function Security(props: Props) {
                                 <PasswordInput
                                     id="password_confirmation"
                                     name="password_confirmation"
-                                    className="mt-1 block w-full"
+                                    className="mt-1 block w-full bg-white"
                                     autoComplete="new-password"
                                     placeholder="Confirm password"
                                     passwordrules={props.passwordRules}
@@ -133,7 +133,7 @@ export default function Security(props: Props) {
                 canManagePasskeys={props.canManagePasskeys}
                 passkeys={props.passkeys}
             />
-        </>
+        </div>
     );
 }
 

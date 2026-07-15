@@ -1,3 +1,4 @@
+import type { AccountTypeOption } from '@/types/account';
 import type { Auth } from '@/types/auth';
 
 declare module 'react' {
@@ -13,6 +14,7 @@ declare module '@inertiajs/core' {
             name: string;
             auth: Auth;
             sidebarOpen: boolean;
+            accountTypes: AccountTypeOption[];
             [key: string]: unknown;
         };
     }

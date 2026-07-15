@@ -1,13 +1,25 @@
-import type { Icon as PhosphorIcon } from '@phosphor-icons/react';
-interface IconProps {
-    iconNode?: PhosphorIcon | null;
-    className?: string;
+import * as PhosphorIcons from "@phosphor-icons/react";
+import type { Icon as PhosphorIconType, IconProps } from "@phosphor-icons/react";
+
+type IconName = Extract<keyof typeof PhosphorIcons, string>;
+
+interface DynamicIconProps extends IconProps {
+    name: string;
+    fallback?: PhosphorIconType;
 }
 
-export function Icon({ iconNode: IconComponent, className }: IconProps) {
-    if (!IconComponent) {
-        return null;
-    }
+function isValidIconName(name: string): name is IconName {
+    return name in PhosphorIcons;
+}
 
-    return <IconComponent className={className} />;
+export function DynamicIcon({
+                                name,
+                                fallback = PhosphorIcons.QuestionIcon,
+                                ...iconProps
+                            }: DynamicIconProps) {
+    const IconComponent = isValidIconName(name)
+        ? (PhosphorIcons[name] as PhosphorIconType)
+        : fallback;
+
+    return <IconComponent {...iconProps} />;
 }

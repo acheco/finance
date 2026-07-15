@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\AccountType;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -42,6 +43,10 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'accountTypes' => collect(AccountType::cases())->map(fn (AccountType $type) => [
+                'value' => $type->value,
+                'label' => $type->label(),
+            ])->all(),
         ];
     }
 }
