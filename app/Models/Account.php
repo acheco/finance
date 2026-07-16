@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property int $id
  * @property int $user_id
- * @property string $name Account name
+ * @property string $name Index name
  * @property AccountType $type cash, bank, credit_card, etc.
  * @property numeric $balance
  * @property string|null $color Hex color code

@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { AccountColumns } from '@/columns/account-columns';
 import { DataTable } from '@/components/data-table';
 import Heading from '@/components/heading';
+import AccountForm from '@/components/modals/AccountForm';
+import { Button } from '@/components/ui/button';
+import { index } from '@/routes/account';
 import type { PaginatedAccount } from '@/types/account';
 
 interface Account {
@@ -20,7 +23,7 @@ export default function Index({ accounts, filters }: Account) {
     useEffect(() => {
         const timeout = setTimeout(() => {
             router.get(
-                '/settings/account',
+                index().url,
                 { search },
                 { preserveState: true, preserveScroll: true, replace: true },
             );
@@ -31,9 +34,9 @@ export default function Index({ accounts, filters }: Account) {
 
     return (
         <div className="max-w-4xl space-y-6">
-            <Head title="Bank Index Settings" />
+            <Head title="Accounts Settings" />
 
-            <h1 className="sr-only">Bank Index Settings</h1>
+            <h1 className="sr-only">Finance Accounts Settings</h1>
 
             <div className="space-y-6">
                 <Heading
@@ -52,7 +55,11 @@ export default function Index({ accounts, filters }: Account) {
                         rowKey={(account) => account.id}
                         search={search}
                         setSearch={setSearch}
-                    />
+                    >
+                        <AccountForm>
+                            <Button size="lg">Add account</Button>
+                        </AccountForm>
+                    </DataTable>
                 </div>
             </div>
         </div>

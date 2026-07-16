@@ -26,6 +26,7 @@ class AccountController extends Controller
                 $query->where('name', 'ilike', "%{$search}%")
                     ->orWhere('type', 'ilike', "%{$search}%");
             })
+            ->orderBy('name')
             ->paginate(10)
             ->onEachSide(0)
             ->withQueryString();
