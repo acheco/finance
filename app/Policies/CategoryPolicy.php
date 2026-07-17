@@ -50,6 +50,6 @@ class CategoryPolicy
 
     public function hide(User $user, Category $category): bool
     {
-        return $category->user_id === null;
+        return $category->user_id == null;
     }
 }

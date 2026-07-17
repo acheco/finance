@@ -1,7 +1,6 @@
 includes:
     - vendor/larastan/larastan/extension.neon
     - vendor/nesbot/carbon/extension.neon
-    - phpstan-baseline.neon
 
 parameters:
     paths:
@@ -10,13 +9,5 @@ parameters:
         - config/
         - database/
         - routes/
-    scanFiles:
-        - _ide_helper.php
-        - _ide_helper_models.php
-    parallel:
-        maximumNumberOfProcesses: 1
-
-    excludePaths:
-        - ./*/*/phpstal-baseline.neon
 
     level: 7

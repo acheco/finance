@@ -4,9 +4,8 @@ namespace App\Models;
 
 use App\Enums\AccountType;
 use Carbon\CarbonImmutable;
-use Eloquent;
+use Database\Factories\AccountFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,27 +24,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read User $user
  *
  * @method static \Database\Factories\AccountFactory factory($count = null, $state = [])
- * @method static Builder<static>|Account newModelQuery()
- * @method static Builder<static>|Account newQuery()
- * @method static Builder<static>|Account query()
- * @method static Builder<static>|Account whereBalance($value)
- * @method static Builder<static>|Account whereColor($value)
- * @method static Builder<static>|Account whereCreatedAt($value)
- * @method static Builder<static>|Account whereIcon($value)
- * @method static Builder<static>|Account whereId($value)
- * @method static Builder<static>|Account whereIsActive($value)
- * @method static Builder<static>|Account whereName($value)
- * @method static Builder<static>|Account whereType($value)
- * @method static Builder<static>|Account whereUpdatedAt($value)
- * @method static Builder<static>|Account whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereIcon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereUserId($value)
  *
- * @mixin Eloquent
+ * @mixin \Eloquent
  */
 #[Fillable(['name', 'type', 'balance', 'color', 'icon', 'is_active'])]
 class Account extends Model
 {
+    /** @use HasFactory<AccountFactory> */
     use HasFactory;
 
+    /**
+     * @return string[]
+     */
     protected function casts(): array
     {
         return [
