@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { cn, toUrl } from '@/lib/utils';
-import { index } from '@/routes/account';
+import { index as editAccount } from '@/routes/account';
 import { edit as editAppearance } from '@/routes/appearance';
+import { index as editCategory } from '@/routes/category';
 import { edit } from '@/routes/profile';
 import { edit as editSecurity } from '@/routes/security';
 import type { NavItem } from '@/types';
@@ -29,7 +30,12 @@ const sidebarNavItems: NavItem[] = [
     },
     {
         title: 'Bank Account',
-        href: index(),
+        href: editAccount(),
+        icon: null,
+    },
+    {
+        title: 'Categories',
+        href: editCategory(),
         icon: null,
     },
 ];

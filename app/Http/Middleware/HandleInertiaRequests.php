@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use App\Enums\AccountType;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -47,6 +49,13 @@ class HandleInertiaRequests extends Middleware
                 'value' => $type->value,
                 'label' => $type->label(),
             ])->all(),
+            'categories' => fn () => $request->user()
+                ? Cache::remember("user.{$request->user()->id}.categories",
+                    now()->addHour(),
+                    fn () => Category::forUser($request->user())
+                        ->orderBy('name')
+                        ->get(['id', 'name', 'slug', 'color', 'icon', 'user_id'])
+                ) : [],
         ];
     }
 }

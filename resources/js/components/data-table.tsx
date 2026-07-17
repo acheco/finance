@@ -1,6 +1,4 @@
 import DataTablePagination from '@/components/data-table-pagination';
-import AccountForm from '@/components/modals/AccountForm';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
     Table,
@@ -10,6 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 import type { PaginationMeta } from '@/types/pagination';
 
 export interface ColumnDef<TData> {
@@ -27,6 +26,7 @@ interface DataTableProps<TData> {
     emptyMessage?: string;
     search?: string;
     setSearch?: (search: string) => void;
+    children?: React.ReactNode;
 }
 
 export function DataTable<TData extends Record<string, any>>({
@@ -37,6 +37,7 @@ export function DataTable<TData extends Record<string, any>>({
     emptyMessage = 'Data not found.',
     search,
     setSearch,
+    children,
 }: DataTableProps<TData>) {
     return (
         <div>
@@ -48,9 +49,7 @@ export function DataTable<TData extends Record<string, any>>({
                     onChange={(e) => setSearch?.(e.target.value)}
                 />
 
-                <AccountForm>
-                    <Button size="lg">Add account</Button>
-                </AccountForm>
+                {children}
             </div>
 
             <div className="rounded-md border">
@@ -60,7 +59,10 @@ export function DataTable<TData extends Record<string, any>>({
                             {columns.map((column) => (
                                 <TableHead
                                     key={column.key}
-                                    className={column.className}
+                                    className={cn(
+                                        'preset-5 text-grey-500',
+                                        column.className,
+                                    )}
                                 >
                                     {column.header}
                                 </TableHead>
@@ -74,7 +76,7 @@ export function DataTable<TData extends Record<string, any>>({
                                     {columns.map((column) => (
                                         <TableCell
                                             key={column.key}
-                                            className={column.className}
+                                            className={cn(column.className)}
                                         >
                                             {column.render
                                                 ? column.render(row)

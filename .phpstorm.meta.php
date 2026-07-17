@@ -2930,7 +2930,8 @@ namespace PHPSTORM_META {
     override(\optional(0), type(0));
 
             registerArgumentsSet('auth', 
-'viewTelescope',);
+'viewTelescope','viewAny','view','create','update',
+'delete','hide',);
         registerArgumentsSet('configs', 
 'broadcasting.default','broadcasting.connections.reverb.driver','broadcasting.connections.reverb.key','broadcasting.connections.reverb.secret','broadcasting.connections.reverb.app_id',
 'broadcasting.connections.reverb.options.host','broadcasting.connections.reverb.options.port','broadcasting.connections.reverb.options.scheme','broadcasting.connections.reverb.options.useTLS','broadcasting.connections.reverb.client_options',
@@ -3060,8 +3061,9 @@ namespace PHPSTORM_META {
 'passkey.store','passkey.destroy',
 'telescope','home','dashboard',
 'profile.edit','profile.update','account.index','account.store','account.update',
-'account.destroy','profile.destroy','security.edit','user-password.update','appearance.edit',
-'well-known.passkeys','storage.local','storage.local.upload',);
+'account.destroy','category.index','category.store','category.update','category.destroy',
+'category.hide','category.unhide','profile.destroy','security.edit','user-password.update',
+'appearance.edit','well-known.passkeys','storage.local','storage.local.upload',);
         registerArgumentsSet('views', 
 'app','laravel-exceptions-renderer::components.badge','laravel-exceptions-renderer::components.empty-state','laravel-exceptions-renderer::components.file-with-line','laravel-exceptions-renderer::components.formatted-source',
 'laravel-exceptions-renderer::components.frame','laravel-exceptions-renderer::components.frame-code','laravel-exceptions-renderer::components.header','laravel-exceptions-renderer::components.http-method','laravel-exceptions-renderer::components.icons.alert',

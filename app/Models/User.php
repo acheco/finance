@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
@@ -31,8 +32,12 @@ use Laravel\Passkeys\Passkey;
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property CarbonImmutable|null $two_factor_confirmed_at
- * @property-read Collection<int, Account> $accounts
- * @property-read int|null $accounts_count
+ * @property-read Collection<int, Account> $account
+ * @property-read int|null $account_count
+ * @property-read Collection<int, Category> $categories
+ * @property-read int|null $categories_count
+ * @property-read Collection<int, Category> $hiddenCategories
+ * @property-read int|null $hidden_categories_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Passkey> $passkeys
@@ -56,7 +61,7 @@ use Laravel\Passkeys\Passkey;
  *
  * @mixin \Eloquent
  */
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'slug'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
@@ -83,5 +88,21 @@ class User extends Authenticatable implements PasskeyUser
     public function account(): HasMany
     {
         return $this->hasMany(Account::class);
+    }
+
+    /**
+     * @return HasMany<Category, $this>
+     */
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    /**
+     * @return BelongsToMany<Category, $this>
+     */
+    public function hiddenCategories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'category_user_hidden')->withTimestamps();
     }
 }

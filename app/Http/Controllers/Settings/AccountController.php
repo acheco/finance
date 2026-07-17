@@ -26,9 +26,19 @@ class AccountController extends Controller
                 $query->where('name', 'ilike', "%{$search}%")
                     ->orWhere('type', 'ilike', "%{$search}%");
             })
+            ->orderBy('name')
             ->paginate(10)
             ->onEachSide(0)
-            ->withQueryString();
+            ->withQueryString()
+            ->through(fn ($account) => [
+                'id' => $account->id,
+                'name' => $account->name,
+                'type' => $account->type->label(),
+                'balance' => $account->balance,
+                'icon' => $account->icon,
+                'color' => $account->color,
+                'is_active' => $account->is_active,
+            ]);
 
         return Inertia::render('settings/account/index', [
             'accounts' => $accounts,

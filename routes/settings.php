@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Settings\AccountController;
+use App\Http\Controllers\Settings\CategoryController;
+use App\Http\Controllers\Settings\HiddenCategoryController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\SecurityController;
 use Illuminate\Auth\Middleware\RequirePassword;
@@ -13,6 +15,11 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::resource('settings/account', AccountController::class)->only(['index', 'store', 'update', 'destroy']);
+
+    Route::resource('settings/category', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
+
+    Route::post('settings/category/{category}/hide', [HiddenCategoryController::class, 'store'])->name('category.hide');
+    Route::delete('settings/category/{category}/hide', [HiddenCategoryController::class, 'destroy'])->name('category.unhide');
 
 });
 

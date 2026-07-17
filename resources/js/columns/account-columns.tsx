@@ -62,7 +62,7 @@ export const AccountColumns: ColumnDef<Account>[] = [
         render: (row) => `${currencyFormatter(row.balance)}`,
     },
     {
-        key: '',
+        key: 'actions',
         header: '',
         render: (account) => (
             <DropdownMenu>
