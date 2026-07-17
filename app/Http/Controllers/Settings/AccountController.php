@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Enums\AccountType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAccountRequest;
 use App\Http\Requests\UpdateAccountRequest;
@@ -29,7 +30,16 @@ class AccountController extends Controller
             ->orderBy('name')
             ->paginate(10)
             ->onEachSide(0)
-            ->withQueryString();
+            ->withQueryString()
+            ->through(fn ($account) => [
+                'id' => $account->id,
+                'name' => $account->name,
+                'type' => $account->type->label(),
+                'balance' => $account->balance,
+                'icon' => $account->icon,
+                'color' => $account->color,
+                'is_active' => $account->is_active,
+            ]);
 
         return Inertia::render('settings/account/index', [
             'accounts' => $accounts,
