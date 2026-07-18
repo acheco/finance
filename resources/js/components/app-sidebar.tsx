@@ -25,7 +25,7 @@ export function AppSidebar({ items }: { items: NavItem[] }) {
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <Link href={dashboard()} prefetch className="">
+                        <Link href={dashboard()} prefetch className="w-full">
                             {open ? <AppLogo /> : <AppLogoIcon />}
                         </Link>
                     </SidebarMenuItem>

@@ -1,10 +1,9 @@
 import { Link } from '@inertiajs/react';
 import { DotsThreeIcon } from '@phosphor-icons/react';
 import {
-    store,
     destroy,
+    store,
 } from '@/actions/App/Http/Controllers/Settings/HiddenCategoryController';
-import type { ColumnDef } from '@/components/data-table';
 import CategoryForm from '@/components/modals/CategoryForm';
 import DeleteCategoryModal from '@/components/modals/delete-category';
 import { Button } from '@/components/ui/button';
@@ -23,6 +22,7 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import type { Category } from '@/types/category';
+import type { ColumnDef } from '@/types/datatable';
 
 export const CategoryColumns: ColumnDef<Category>[] = [
     {

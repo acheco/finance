@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Account;
-use App\Models\Category;
-use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -25,6 +23,8 @@ class DatabaseSeeder extends Seeder
         //
         //        Account::factory(15)->create();
         //        Category::factory(15)->create();
+
+        Transaction::factory(15)->create();
 
         $this->call([
             CategorySeeder::class,

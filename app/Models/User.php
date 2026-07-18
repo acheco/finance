@@ -85,7 +85,7 @@ class User extends Authenticatable implements PasskeyUser
     /**
      * @return HasMany<Account, $this>
      */
-    public function account(): HasMany
+    public function accounts(): HasMany
     {
         return $this->hasMany(Account::class);
     }
@@ -96,6 +96,14 @@ class User extends Authenticatable implements PasskeyUser
     public function categories(): HasMany
     {
         return $this->hasMany(Category::class);
+    }
+
+    /**
+     * @return HasMany<Transaction, $this>
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 
     /**

@@ -11,6 +11,7 @@ import { AppSidebar } from '@/components/app-sidebar';
 import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import AppMobileNavbar from '@/components/AppMobileNavbar';
 import { dashboard } from '@/routes';
+import { index as transactions } from '@/routes/transactions';
 import type { AppLayoutProps, NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -21,7 +22,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Transactions',
-        href: '#',
+        href: transactions(),
         icon: ArrowsDownUpIcon,
     },
     {
