@@ -82,16 +82,19 @@ export default function DataTablePagination({ pagination, className }: Props) {
                 preserveState
                 preserveScroll
                 onClick={handleClick(prevLink)}
-                className={cn(linkClass(prevLink), 'group md:w-24')}
+                className={cn(
+                    linkClass(prevLink),
+                    'group items-center md:w-24 md:justify-evenly',
+                )}
                 disabled={!prevLink.url}
             >
-                <span className="hidden preset-4 group-hover:text-white md:block">
-                    Prev
-                </span>
                 <CaretLeftIcon
                     className="h-4 w-4 text-grey-500 group-hover:text-white"
                     weight="fill"
                 />
+                <span className="hidden preset-4 group-hover:text-white md:block">
+                    Prev
+                </span>
             </Link>
 
             {/* Grouped numbers (desktop) */}
@@ -140,7 +143,10 @@ export default function DataTablePagination({ pagination, className }: Props) {
                 preserveState
                 preserveScroll
                 onClick={handleClick(nextLink)}
-                className={cn(linkClass(nextLink), 'group md:w-24')}
+                className={cn(
+                    linkClass(nextLink),
+                    'group items-center justify-evenly md:w-24',
+                )}
             >
                 <span className="hidden preset-4 group-hover:text-white md:block">
                     Next
