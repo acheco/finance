@@ -55,6 +55,7 @@ class HandleInertiaRequests extends Middleware
                     fn () => Category::forUser($request->user())
                         ->orderBy('name')
                         ->get(['id', 'name', 'slug', 'color', 'icon', 'user_id'])
+                        ->toArray()
                 ) : [],
         ];
     }

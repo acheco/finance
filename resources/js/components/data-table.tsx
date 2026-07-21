@@ -1,8 +1,10 @@
+import { usePage } from '@inertiajs/react';
 import {
     FunnelIcon,
     SortAscendingIcon,
     SortDescendingIcon,
 } from '@phosphor-icons/react';
+import { Fragment } from 'react';
 import DataTablePagination from '@/components/data-table-pagination';
 import { Input } from '@/components/ui/input';
 import {
@@ -36,6 +38,9 @@ interface DataTableProps<TData> {
     setSearch?: (search: string) => void;
     sort?: string;
     setSort?: (sort: string) => void;
+    category?: string;
+    setCategory?: (category: string) => void;
+    withCategory?: boolean;
     children?: React.ReactNode;
 }
 
@@ -49,9 +54,14 @@ export function DataTable<TData extends Record<string, any>>({
     setSearch,
     sort,
     setSort,
+    category,
+    setCategory,
+    withCategory = false,
     children,
 }: DataTableProps<TData>) {
     const ascendingSorts = ['oldest', 'a_to_z', 'lowest'];
+
+    const { categories } = usePage().props;
 
     const sortLabels: Record<TransactionSortOption, string> = {
         latest: 'Latest',
@@ -64,7 +74,7 @@ export function DataTable<TData extends Record<string, any>>({
 
     return (
         <div className="">
-            <div className="mb-4 flex items-center justify-between space-x-6">
+            <div className="mb-4 flex items-center justify-between md:space-x-6">
                 <Input
                     type="text"
                     placeholder="Search..."
@@ -72,7 +82,7 @@ export function DataTable<TData extends Record<string, any>>({
                     onChange={(e) => setSearch?.(e.target.value)}
                 />
 
-                <div className="flex flex-row items-center justify-between space-x-6">
+                <div className="flex flex-row items-center justify-between md:space-x-6">
                     {sort && (
                         <div className="flex items-center gap-2">
                             <span className="hidden w-12 preset-4 text-grey-500 md:inline-block">
@@ -99,6 +109,7 @@ export function DataTable<TData extends Record<string, any>>({
                                                     size={32}
                                                     weight="fill"
                                                     className="sm:hidden"
+                                                    color="#201F24"
                                                 />
                                             )}
                                             <span className="hidden sm:inline-block">
@@ -111,7 +122,7 @@ export function DataTable<TData extends Record<string, any>>({
                                         </span>
                                     </SelectValue>
                                 </SelectTrigger>
-                                <SelectContent className="px-5">
+                                <SelectContent className="px-5 py-3">
                                     {Object.entries(sortLabels).map(
                                         ([value, label], index, arr) => (
                                             <div key={value}>
@@ -135,15 +146,18 @@ export function DataTable<TData extends Record<string, any>>({
                         </div>
                     )}
 
-                    {sort && (
+                    {withCategory && (
                         <div className="flex items-center gap-2">
                             <span className="hidden w-15 preset-4 text-grey-500 md:inline-block">
                                 Category
                             </span>
 
-                            <Select value={sort} onValueChange={setSort}>
+                            <Select
+                                value={category}
+                                onValueChange={setCategory}
+                            >
                                 <SelectTrigger
-                                    id="sort"
+                                    id="category"
                                     className={cn(
                                         'border-white shadow-none md:w-[177px] md:border-beige-500 md:shadow-xs',
                                     )}
@@ -151,48 +165,58 @@ export function DataTable<TData extends Record<string, any>>({
                                     <SelectValue>
                                         <span className="flex items-center gap-2">
                                             <FunnelIcon
-                                                size={32}
+                                                width={12}
+                                                height={12}
                                                 weight="fill"
+                                                color="#201F24"
+                                                className="w-full sm:hidden"
                                             />
                                             <span className="hidden sm:inline-block">
-                                                {
-                                                    sortLabels[
-                                                        sort as TransactionSortOption
-                                                    ]
-                                                }
+                                                {category === 'All Transactions'
+                                                    ? 'All Transactions'
+                                                    : categories.find(
+                                                          (cat) =>
+                                                              String(cat.id) ===
+                                                              category,
+                                                      )?.name}
                                             </span>
                                         </span>
                                     </SelectValue>
                                 </SelectTrigger>
-                                <SelectContent className="px-5">
-                                    {Object.entries(sortLabels).map(
-                                        ([value, label], index, arr) => (
-                                            <div key={value}>
-                                                <SelectItem
-                                                    value={value}
-                                                    className={cn(
-                                                        sort === value &&
-                                                            'font-bold',
-                                                    )}
-                                                >
-                                                    {label}
-                                                </SelectItem>
-                                                {index < arr.length - 1 && (
-                                                    <SelectSeparator />
+                                <SelectContent
+                                    position="popper"
+                                    className="px-5 py-3"
+                                >
+                                    <SelectItem value="All Transactions">
+                                        All Transactions
+                                    </SelectItem>
+                                    <SelectSeparator />
+                                    {categories.map((cat, index) => (
+                                        <Fragment key={cat.id}>
+                                            <SelectItem
+                                                value={String(cat.id)}
+                                                className={cn(
+                                                    category ===
+                                                        String(cat.id) &&
+                                                        'font-bold',
                                                 )}
-                                            </div>
-                                        ),
-                                    )}
+                                            >
+                                                {cat.name}
+                                            </SelectItem>
+                                            {index < categories.length - 1 && (
+                                                <SelectSeparator />
+                                            )}
+                                        </Fragment>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>
                     )}
                 </div>
-
                 {children}
             </div>
 
-            <div className="rounded-md border">
+            <div className="rounded-md">
                 <Table>
                     <TableHeader>
                         <TableRow>

@@ -22,13 +22,14 @@ export interface Transaction {
     account_id: number;
     category_id: number | null;
     transfer_id: number | null;
+    recipient: string;
     amount: number;
     date: string;
     description: string;
     created_at: string;
     type: string;
     account: Pick<Account, 'id' | 'name'>;
-    category: Pick<Category, 'id' | 'name'> | null;
+    category: Pick<Category, 'id' | 'name' | 'color' | 'icon'> | null;
     transfer: Pick<Account, 'id' | 'name'> | null;
 }
 

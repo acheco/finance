@@ -1,5 +1,6 @@
 import type { AccountTypeOption } from '@/types/account';
 import type { Auth } from '@/types/auth';
+import type { Category } from '@/types/category';
 
 declare module 'react' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,6 +16,7 @@ declare module '@inertiajs/core' {
             auth: Auth;
             sidebarOpen: boolean;
             accountTypes: AccountTypeOption[];
+            categories: Category[];
             [key: string]: unknown;
         };
     }

@@ -13,6 +13,7 @@ interface TransactionProps {
     filters: {
         search?: string;
         sort: TransactionSortOption;
+        category?: string;
     };
 }
 
@@ -22,23 +23,27 @@ export default function Transaction({
 }: TransactionProps) {
     const { data, ...pagination } = transactions;
     const [search, setSearch] = useState<string>(filters.search ?? '');
-    const [sort, setSort] = useState<string>(filters.sort);
+    const [sort, setSort] = useState<string>(filters.sort ?? 'latest');
+    const [category, setCategory] = useState<string>(
+        filters.category ?? 'All Transactions',
+    );
 
     useEffect(() => {
         const timeout = setTimeout(() => {
             router.get(
                 transaction().url,
-                { search, sort },
                 {
-                    preserveState: true,
-                    preserveScroll: true,
-                    replace: true,
+                    search,
+                    sort,
+                    category:
+                        category === 'All Transactions' ? undefined : category,
                 },
+                { preserveState: true, preserveScroll: true, replace: true },
             );
         }, 300);
 
         return () => clearTimeout(timeout);
-    }, [search, sort]);
+    }, [search, sort, category]);
 
     return (
         <>
@@ -53,6 +58,10 @@ export default function Transaction({
                     setSearch={setSearch}
                     sort={sort}
                     setSort={setSort}
+                    withCategory={true}
+                    category={category}
+                    setCategory={setCategory}
+                    emptyMessage="No transactions found."
                 />
             </div>
         </>

@@ -39,13 +39,16 @@ class TransactionController extends Controller
                         ->orWhereHas('category', fn ($q) => $q->where('name', 'ilike', "%{$search}%"));
                 });
             })
+            ->when(request('category'), function ($query, $categoryId) {
+                $query->where('category_id', $categoryId);
+            })
             ->orderBy($sortColumn, $sortDirection)
             ->paginate(10)
             ->withQueryString()
             ->through(fn ($transaction) => [
                 ...$transaction->toArray(),
                 'account' => $transaction->account->only(['id', 'name']),
-                'category' => $transaction->category?->only(['id', 'name']),
+                'category' => $transaction->category?->only(['id', 'name', 'color', 'icon']),
                 'transfer' => $transaction->transfer
                     ? ($transaction->type === TransactionType::TransferOut
                         ? $transaction->transfer->toAccount->only(['id'])
@@ -60,6 +63,7 @@ class TransactionController extends Controller
             'filters' => [
                 'search' => request('search'),
                 'sort' => request('sort', 'latest'),
+                'category' => request('category'),
             ],
         ]);
     }
