@@ -80,6 +80,7 @@ export function DataTable<TData extends Record<string, any>>({
                     placeholder="Search..."
                     value={search}
                     onChange={(e) => setSearch?.(e.target.value)}
+                    className="max-w-[320px]"
                 />
 
                 <div className="flex flex-row items-center justify-between md:space-x-6">

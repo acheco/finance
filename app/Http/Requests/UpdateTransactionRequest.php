@@ -12,7 +12,7 @@ class UpdateTransactionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user()->can('update', $this->route('transaction'));
     }
 
     /**
@@ -23,7 +23,13 @@ class UpdateTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'account_id' => 'required|exists:accounts,id',
+            'category_id' => 'exists:categories,id',
+            'recipient' => 'required|string|max:255',
+            'amount' => 'required|numeric|min:0.1',
+            'type' => 'required|in:income,expense',
+            'description' => 'nullable|string|max:255',
+            'date' => 'required|date',
         ];
     }
 }

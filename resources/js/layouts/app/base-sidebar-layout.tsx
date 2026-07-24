@@ -45,6 +45,7 @@ const mainNavItems: NavItem[] = [
 export default function AppSidebarLayout({
     children,
     breadcrumbs = [],
+    headerAction,
 }: AppLayoutProps) {
     return (
         <AppShell variant="sidebar">
@@ -53,7 +54,10 @@ export default function AppSidebarLayout({
                 variant="sidebar"
                 className="h-screen space-y-8 overflow-x-hidden bg-beige-100 px-4 py-6 md:px-10 md:py-8"
             >
-                <AppSidebarHeader breadcrumbs={breadcrumbs} />
+                <AppSidebarHeader
+                    breadcrumbs={breadcrumbs}
+                    headerAction={headerAction}
+                />
                 {children}
                 <AppMobileNavbar items={mainNavItems} />
             </AppContent>

@@ -1,3 +1,14 @@
+import { DotsThreeIcon } from '@phosphor-icons/react';
+import DeleteTransactionModal from '@/components/modals/delete-transaction';
+import TransactionForm from '@/components/modals/transaction-form';
+import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { DynamicIcon } from '@/components/ui/icon';
 import { cn, currencyFormatter } from '@/lib/utils';
 import type { ColumnDef } from '@/types/datatable';
@@ -55,7 +66,7 @@ export const TransactionColumns: ColumnDef<Transaction>[] = [
     },
     {
         header: (
-            <div className="hidden text-end md:table-cell">
+            <div className="hidden md:flex md:items-center md:justify-end">
                 <p>Amount</p>
             </div>
         ),
@@ -92,6 +103,33 @@ export const TransactionColumns: ColumnDef<Transaction>[] = [
                         </p>
                     </div>
                 </div>
+            );
+        },
+    },
+    {
+        key: 'actions',
+        header: '',
+        render: (transaction) => {
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <span className="sr-only">Open menu</span>
+                            <DotsThreeIcon size={24} />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="px-5 py-3">
+                        <DropdownMenuItem asChild>
+                            <TransactionForm transaction={transaction} />
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator className="my-3" />
+                        <DropdownMenuItem asChild>
+                            <DeleteTransactionModal
+                                transaction={transaction.id}
+                            />
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             );
         },
     },

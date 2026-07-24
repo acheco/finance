@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\TransactionType;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
 use App\Models\Transaction;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -50,12 +51,14 @@ class TransactionController extends Controller
                 'account' => $transaction->account->only(['id', 'name']),
                 'category' => $transaction->category?->only(['id', 'name', 'color', 'icon']),
                 'transfer' => $transaction->transfer
-                    ? ($transaction->type === TransactionType::TransferOut
-                        ? $transaction->transfer->toAccount->only(['id'])
-                        : $transaction->transfer->fromAccount->only(['id']))
+                    ? [
+                        'from_account' => $transaction->transfer->fromAccount->only(['id', 'name']),
+                        'to_account' => $transaction->transfer->toAccount->only(['id', 'name']),
+                    ]
                     : null,
                 'type' => $transaction->type->label(),
                 'date' => $transaction->date->format('d M Y'),
+                'raw_date' => $transaction->date->format('Y-m-d'),
             ]);
 
         return Inertia::render('Transaction', [
@@ -69,50 +72,44 @@ class TransactionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTransactionRequest $request)
+    public function store(StoreTransactionRequest $request): RedirectResponse
     {
-        //
-    }
+        Gate::authorize('create', Transaction::class);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Transaction $transaction)
-    {
-        //
-    }
+        $request->user()->transactions()->create($request->validated());
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Transaction $transaction)
-    {
-        //
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Transaction created.')]);
+
+        return redirect()->back();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTransactionRequest $request, Transaction $transaction)
+    public function update(UpdateTransactionRequest $request, Transaction $transaction): RedirectResponse
     {
-        //
+        Gate::authorize('update', $transaction);
+
+        $transaction->update($request->validated());
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Transaction updated.')]);
+
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaction $transaction)
+    public function destroy(Transaction $transaction): RedirectResponse
     {
-        //
+        Gate::authorize('delete', $transaction);
+
+        $transaction->delete();
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Transaction deleted.')]);
+
+        return redirect()->back();
     }
 }

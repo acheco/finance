@@ -16,6 +16,11 @@ export interface Transfer {
     created_at: string;
 }
 
+export interface TransactionTransfer {
+    from_account: Pick<Account, 'id' | 'name'>;
+    to_account: Pick<Account, 'id' | 'name'>;
+}
+
 export interface Transaction {
     id: number;
     user_id: number;
@@ -25,12 +30,13 @@ export interface Transaction {
     recipient: string;
     amount: number;
     date: string;
+    raw_date: string;
     description: string;
     created_at: string;
     type: string;
     account: Pick<Account, 'id' | 'name'>;
     category: Pick<Category, 'id' | 'name' | 'color' | 'icon'> | null;
-    transfer: Pick<Account, 'id' | 'name'> | null;
+    transfer: TransactionTransfer | null;
 }
 
 export type PaginatedTransaction = PaginatedResponse<Transaction>;

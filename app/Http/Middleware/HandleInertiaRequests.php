@@ -57,6 +57,10 @@ class HandleInertiaRequests extends Middleware
                         ->get(['id', 'name', 'slug', 'color', 'icon', 'user_id'])
                         ->toArray()
                 ) : [],
+            'accounts' => fn () => $request->user()
+                ?->accounts()
+                ->select(['id', 'name', 'type', 'balance', 'color', 'icon'])
+                ->get(),
         ];
     }
 }

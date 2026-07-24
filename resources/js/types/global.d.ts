@@ -1,4 +1,4 @@
-import type { AccountTypeOption } from '@/types/account';
+import type { Account, AccountTypeOption } from '@/types/account';
 import type { Auth } from '@/types/auth';
 import type { Category } from '@/types/category';
 
@@ -17,6 +17,7 @@ declare module '@inertiajs/core' {
             sidebarOpen: boolean;
             accountTypes: AccountTypeOption[];
             categories: Category[];
+            accounts: Account[];
             [key: string]: unknown;
         };
     }
