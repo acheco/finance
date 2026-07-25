@@ -4,4 +4,3 @@ export interface ColumnDef<TData> {
     render?: (row: TData) => React.ReactNode;
     className?: string;
 }
-

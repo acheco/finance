@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property CarbonImmutable|null $updated_at
  * @property-read Collection<int, User> $hiddenByUsers
  * @property-read int|null $hidden_by_users_count
+ * @property-read Collection<int, Transaction> $transactions
+ * @property-read int|null $transactions_count
  * @property-read User|null $user
  *
  * @method static \Database\Factories\CategoryFactory factory($count = null, $state = [])

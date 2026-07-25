@@ -6,6 +6,7 @@ use App\Enums\AccountType;
 use Carbon\CarbonImmutable;
 use Database\Factories\AccountFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,6 +23,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property bool $is_active
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
+ * @property-read Collection<int, Transaction> $transactions
+ * @property-read int|null $transactions_count
  * @property-read User $user
  *
  * @method static \Database\Factories\AccountFactory factory($count = null, $state = [])
@@ -48,17 +51,6 @@ class Account extends Model
     use HasFactory;
 
     /**
-     * @return string[]
-     */
-    protected function casts(): array
-    {
-        return [
-            'type' => AccountType::class,
-            'is_active' => 'boolean',
-        ];
-    }
-
-    /**
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
@@ -72,5 +64,16 @@ class Account extends Model
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function casts(): array
+    {
+        return [
+            'type' => AccountType::class,
+            'is_active' => 'boolean',
+        ];
     }
 }
