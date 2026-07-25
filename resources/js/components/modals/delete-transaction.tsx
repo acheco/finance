@@ -39,16 +39,18 @@ export default function DeleteTransactionModal({
                         delete the transaction from our servers.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction asChild>
+                <AlertDialogFooter className="flex flex-col gap-2 sm:flex-col">
+                    <AlertDialogAction asChild size="xl">
                         <Link
                             href={destroy(transaction)}
-                            className="rounded-md bg-secondary-red px-4 text-white hover:bg-secondary-red/90"
+                            className="w-full rounded-md bg-secondary-red px-4 text-white hover:bg-secondary-red/90"
                         >
-                            Delete
+                            Yes, Confirm Deletion
                         </Link>
                     </AlertDialogAction>
+                    <AlertDialogCancel className="w-full" size="xl">
+                        No, Go Back
+                    </AlertDialogCancel>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

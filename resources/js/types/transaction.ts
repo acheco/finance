@@ -17,6 +17,7 @@ export interface Transfer {
 }
 
 export interface TransactionTransfer {
+    id: number;
     from_account: Pick<Account, 'id' | 'name'>;
     to_account: Pick<Account, 'id' | 'name'>;
 }

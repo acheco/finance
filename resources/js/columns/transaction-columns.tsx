@@ -1,4 +1,8 @@
-import { DotsThreeIcon } from '@phosphor-icons/react';
+import {
+    ArrowDownLeftIcon,
+    ArrowUpRightIcon,
+    DotsThreeIcon,
+} from '@phosphor-icons/react';
 import DeleteTransactionModal from '@/components/modals/delete-transaction';
 import TransactionForm from '@/components/modals/transaction-form';
 import { Button } from '@/components/ui/button';
@@ -24,7 +28,10 @@ export const TransactionColumns: ColumnDef<Transaction>[] = [
                     className={cn(
                         'flex h-8 w-8 items-center justify-center rounded-full',
                     )}
-                    style={{ backgroundColor: transaction.category?.color }}
+                    style={{
+                        backgroundColor:
+                            transaction.category?.color ?? '#201F24',
+                    }}
                 >
                     {transaction.category?.icon ? (
                         <DynamicIcon
@@ -34,13 +41,38 @@ export const TransactionColumns: ColumnDef<Transaction>[] = [
                             color="#fff"
                         />
                     ) : (
-                        <span>{transaction.recipient}</span>
+                        <span>
+                            {transaction.type === 'Expense' ||
+                                (transaction.type === 'income' &&
+                                    transaction.recipient)}
+                            {transaction.type === 'Transfer Out' && (
+                                <ArrowUpRightIcon
+                                    size={24}
+                                    color="white"
+                                    weight="fill"
+                                />
+                            )}
+                            {transaction.type === 'Transfer In' && (
+                                <ArrowDownLeftIcon
+                                    size={24}
+                                    color="white"
+                                    weight="fill"
+                                />
+                            )}
+                        </span>
                     )}
                 </div>
                 <div>
-                    <p className="preset-4-bold">{transaction.recipient}</p>
+                    <p className="preset-4-bold">
+                        {' '}
+                        {transaction.recipient && transaction.recipient}
+                        {transaction.type === 'Transfer Out' &&
+                            transaction.transfer?.from_account?.name}
+                        {transaction.type === 'Transfer In' &&
+                            transaction.transfer?.to_account?.name}
+                    </p>
                     <p className="preset-5 text-grey-500 md:hidden">
-                        {transaction.category?.name}
+                        {transaction.category?.name ?? transaction.type}
                     </p>
                 </div>
             </div>
@@ -48,10 +80,10 @@ export const TransactionColumns: ColumnDef<Transaction>[] = [
     },
     {
         key: 'cat',
-        header: <div className="hidden md:table-cell">Category</div>,
+        header: <div className={cn('hidden md:table-cell')}>Category</div>,
         render: (transaction) => (
             <p className="hidden preset-5 text-grey-500 md:table-cell">
-                {transaction.category?.name}
+                {transaction.category?.name ?? transaction.type}
             </p>
         ),
     },
@@ -75,23 +107,14 @@ export const TransactionColumns: ColumnDef<Transaction>[] = [
             return (
                 <div className="text-end">
                     <div className="preset-4-bold">
-                        {transaction.type === 'Expense' ? (
-                            <span
-                                className={cn({
-                                    'font-bold text-grey-900':
-                                        transaction.type === 'Expense' ||
-                                        transaction.type === 'Transfer Out',
-                                })}
-                            >
+                        {transaction.type === 'Expense' ||
+                        transaction.type === 'Transfer Out' ? (
+                            <span className={cn('font-bold text-grey-900')}>
                                 -{currencyFormatter(transaction.amount)}
                             </span>
                         ) : (
                             <span
-                                className={cn({
-                                    'font-bold text-secondary-green':
-                                        transaction.type === 'Income' ||
-                                        transaction.type === 'Transfer In',
-                                })}
+                                className={cn('font-bold text-secondary-green')}
                             >
                                 +{currencyFormatter(transaction.amount)}
                             </span>

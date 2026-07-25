@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TransactionType;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
+use App\Models\Account;
 use App\Models\Transaction;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
+use Throwable;
 
 class TransactionController extends Controller
 {
@@ -36,6 +40,8 @@ class TransactionController extends Controller
                 $query->where(function ($query) use ($search) {
                     $query->where('recipient', 'ilike', "%{$search}%")
                         ->orWhere('description', 'ilike', "%{$search}%")
+                        ->orWhere('date', 'ilike', "%{$search}%")
+                        ->orWhere('amount', 'ilike', "%{$search}%")
                         ->orWhereHas('account', fn ($q) => $q->where('name', 'ilike', "%{$search}%"))
                         ->orWhereHas('category', fn ($q) => $q->where('name', 'ilike', "%{$search}%"));
                 });
@@ -52,6 +58,7 @@ class TransactionController extends Controller
                 'category' => $transaction->category?->only(['id', 'name', 'color', 'icon']),
                 'transfer' => $transaction->transfer
                     ? [
+                        'id' => $transaction->transfer->id,
                         'from_account' => $transaction->transfer->fromAccount->only(['id', 'name']),
                         'to_account' => $transaction->transfer->toAccount->only(['id', 'name']),
                     ]
@@ -73,12 +80,23 @@ class TransactionController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @throws Throwable
      */
     public function store(StoreTransactionRequest $request): RedirectResponse
     {
         Gate::authorize('create', Transaction::class);
 
-        $request->user()->transactions()->create($request->validated());
+        DB::transaction(function () use ($request) {
+            /** @var Account $account */
+            $account = Account::whereBelongsTo($request->user())
+                ->lockForUpdate()
+                ->findOrFail($request->account_id);
+
+            $transaction = $request->user()->transactions()->create($request->validated());
+
+            $this->applyBalanceChange($account, $transaction->type, $transaction->amount);
+        });
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Transaction created.')]);
 
@@ -87,12 +105,31 @@ class TransactionController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @throws Throwable
      */
     public function update(UpdateTransactionRequest $request, Transaction $transaction): RedirectResponse
     {
         Gate::authorize('update', $transaction);
 
-        $transaction->update($request->validated());
+        DB::transaction(function () use ($request, $transaction) {
+            /** @var Account $oldAccount */
+            $oldAccount = Account::lockForUpdate()->findOrFail($transaction->account_id);
+            $this->reverseBalanceChange($oldAccount, $transaction->type, $transaction->amount);
+
+            if ($oldAccount->id === (int) $request->account_id) {
+                $newAccount = $oldAccount;
+            } else {
+                /** @var Account $newAccount */
+                $newAccount = Account::whereBelongsTo($request->user())
+                    ->lockForUpdate()
+                    ->findOrFail($request->account_id);
+            }
+
+            $transaction->update($request->validated());
+
+            $this->applyBalanceChange($newAccount, $transaction->type, $transaction->amount);
+        });
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Transaction updated.')]);
 
@@ -101,15 +138,53 @@ class TransactionController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @throws Throwable
      */
     public function destroy(Transaction $transaction): RedirectResponse
     {
         Gate::authorize('delete', $transaction);
 
-        $transaction->delete();
+        if ($transaction->transfer_id !== null) {
+            Gate::authorize('delete', $transaction->transfer);
+
+            $transaction->transfer->reverseAndDelete();
+        } else {
+            DB::transaction(function () use ($transaction) {
+                /** @var Account $account */
+                $account = Account::lockForUpdate()->findOrFail($transaction->account_id);
+                $this->reverseBalanceChange($account, $transaction->type, $transaction->amount);
+
+                $transaction->delete();
+            });
+        }
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Transaction deleted.')]);
 
         return redirect()->back();
+    }
+
+    /**
+     * Apply a transaction's effect on its account balance.
+     */
+    private function applyBalanceChange(Account $account, TransactionType $type, string|float $amount): void
+    {
+        match ($type) {
+            TransactionType::Income => $account->increment('balance', (float) $amount),
+            TransactionType::Expense => $account->decrement('balance', (float) $amount),
+            TransactionType::TransferIn, TransactionType::TransferOut => null,
+        };
+    }
+
+    /**
+     * Reverse a transaction's effect on its account balance.
+     */
+    private function reverseBalanceChange(Account $account, TransactionType $type, string|float $amount): void
+    {
+        match ($type) {
+            TransactionType::Income => $account->decrement('balance', (float) $amount),
+            TransactionType::Expense => $account->increment('balance', (float) $amount),
+            TransactionType::TransferIn, TransactionType::TransferOut => null,
+        };
     }
 }

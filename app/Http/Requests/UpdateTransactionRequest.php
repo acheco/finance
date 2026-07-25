@@ -25,11 +25,12 @@ class UpdateTransactionRequest extends FormRequest
         return [
             'account_id' => 'required|exists:accounts,id',
             'category_id' => 'exists:categories,id',
-            'recipient' => 'required|string|max:255',
-            'amount' => 'required|numeric|min:0.1',
+            'transfer_id' => 'nullable|exists:transfers,id',
+            'recipient' => 'nullable|string|max:255',
+            'amount' => 'required|numeric|gt:0',
             'type' => 'required|in:income,expense',
-            'description' => 'nullable|string|max:255',
             'date' => 'required|date',
+            'description' => 'nullable|string|max:255',
         ];
     }
 }

@@ -30,8 +30,7 @@ class StoreTransactionRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'amount' => ['required', 'numeric', 'min:0.1'],
             'date' => ['required', 'date'],
-            'type' => ['required', 'in:income,expense,transfer'],
-            'transfer_id' => ['nullable', 'exists:accounts,id'],
+            'type' => ['required', 'in:income,expense'],
         ];
     }
 }

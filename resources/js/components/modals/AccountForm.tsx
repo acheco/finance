@@ -1,6 +1,6 @@
 import { Form, usePage } from '@inertiajs/react';
-import { useState } from 'react';
 import type { ReactNode } from 'react';
+import { useState } from 'react';
 import AccountController from '@/actions/App/Http/Controllers/Settings/AccountController';
 import IconPicker from '@/components/icon-picker';
 import InputError from '@/components/input-error';
@@ -90,7 +90,13 @@ export default function AccountForm({
                                 </div>
                                 <div className="grid gap-2">
                                     <Label htmlFor="icon">Icon</Label>
-                                    <IconPicker iconNames={icons} name="icon" />
+                                    <IconPicker
+                                        iconNames={icons}
+                                        name="icon"
+                                        defaultValue={
+                                            account?.icon ?? undefined
+                                        }
+                                    />
                                     <InputError message={errors.icon} />
                                 </div>
                             </div>
@@ -99,9 +105,7 @@ export default function AccountForm({
                                 <Label htmlFor="type">Type</Label>
                                 <Select
                                     name="type"
-                                    defaultValue={
-                                        account?.type ?? accountTypes[0].value
-                                    }
+                                    defaultValue={account?.type}
                                 >
                                     <SelectTrigger id="type" className="w-full">
                                         <SelectValue placeholder="Select a type" />

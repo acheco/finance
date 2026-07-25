@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Enums\AccountType;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
@@ -50,17 +51,43 @@ class HandleInertiaRequests extends Middleware
                 'label' => $type->label(),
             ])->all(),
             'categories' => fn () => $request->user()
-                ? Cache::remember("user.{$request->user()->id}.categories",
-                    now()->addHour(),
-                    fn () => Category::forUser($request->user())
-                        ->orderBy('name')
-                        ->get(['id', 'name', 'slug', 'color', 'icon', 'user_id'])
-                        ->toArray()
-                ) : [],
+                ? $this->resolveCategories($request->user())
+                : [],
             'accounts' => fn () => $request->user()
-                ?->accounts()
+                ?->account()
                 ->select(['id', 'name', 'type', 'balance', 'color', 'icon'])
                 ->get(),
         ];
+    }
+
+    /**
+     * Resolve the cached categories available to the given user.
+     *
+     * Empty results are intentionally not cached, so that a temporarily
+     * empty result (e.g., right after account creation, before any
+     * categories exist) doesn't get locked in for the full cache TTL.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function resolveCategories(User $user): array
+    {
+        $cacheKey = "user.{$user->id}.categories";
+
+        $categories = Cache::get($cacheKey);
+
+        if ($categories !== null) {
+            return $categories;
+        }
+
+        $categories = Category::forUser($user)
+            ->orderBy('name')
+            ->get(['id', 'name', 'slug', 'color', 'icon', 'user_id'])
+            ->toArray();
+
+        if ($categories !== []) {
+            Cache::put($cacheKey, $categories, now()->addHour());
+        }
+
+        return $categories;
     }
 }

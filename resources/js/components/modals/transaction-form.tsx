@@ -2,6 +2,7 @@ import { Form, usePage } from '@inertiajs/react';
 import { ArrowFatLinesRightIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
 import TransactionController from '@/actions/App/Http/Controllers/TransactionController';
+import TransferController from '@/actions/App/Http/Controllers/TransferController';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
@@ -36,8 +37,8 @@ type FormType = 'income' | 'expense' | 'transfer';
 
 function resolveFormType(transaction?: Transaction): FormType {
     if (!transaction) {
-return 'expense';
-}
+        return 'expense';
+    }
 
     switch (transaction.type) {
         case 'Income':
@@ -58,6 +59,15 @@ export default function TransactionForm({ transaction }: TransactionFormProps) {
 
     const { categories, accounts } = usePage().props;
     const isEditing = Boolean(transaction);
+
+    const formProps =
+        type === 'transfer'
+            ? transaction?.transfer
+                ? TransferController.update.form(transaction.transfer.id)
+                : TransferController.store.form()
+            : transaction
+              ? TransactionController.update.form(transaction.id)
+              : TransactionController.store.form();
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -81,15 +91,15 @@ export default function TransactionForm({ transaction }: TransactionFormProps) {
                     </DialogDescription>
                 </DialogHeader>
                 <Form
-                    {...(transaction
-                        ? TransactionController.update.form(transaction.id)
-                        : TransactionController.store.form())}
+                    {...formProps}
                     onSuccess={() => setOpen(false)}
                     className="space-y-4"
                 >
                     {({ processing, errors }) => (
                         <>
-                            <input type="hidden" name="type" value={type} />
+                            {type !== 'transfer' && (
+                                <input type="hidden" name="type" value={type} />
+                            )}
 
                             <div>
                                 <Label htmlFor="formType" className="sr-only">
@@ -126,6 +136,7 @@ export default function TransactionForm({ transaction }: TransactionFormProps) {
                                     step="0.01"
                                     min="0"
                                     defaultValue={transaction?.amount}
+                                    placeholder="100.00"
                                 />
                                 <InputError message={errors.amount} />
                             </div>
@@ -336,6 +347,23 @@ export default function TransactionForm({ transaction }: TransactionFormProps) {
                                             defaultValue={transaction?.raw_date}
                                         />
                                         <InputError message={errors.date} />
+                                    </div>
+
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="transferDescription">
+                                            Description
+                                        </Label>
+                                        <Input
+                                            id="transferDescription"
+                                            name="description"
+                                            type="text"
+                                            defaultValue={
+                                                transaction?.description
+                                            }
+                                        />
+                                        <InputError
+                                            message={errors.description}
+                                        />
                                     </div>
                                 </div>
                             )}
