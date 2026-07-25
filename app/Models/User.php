@@ -42,6 +42,10 @@ use Laravel\Passkeys\Passkey;
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Passkey> $passkeys
  * @property-read int|null $passkeys_count
+ * @property-read Collection<int, Transaction> $transactions
+ * @property-read int|null $transactions_count
+ * @property-read Collection<int, Transfer> $transfers
+ * @property-read int|null $transfers_count
  *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
@@ -69,20 +73,6 @@ class User extends Authenticatable implements PasskeyUser
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'two_factor_confirmed_at' => 'datetime',
-        ];
-    }
-
-    /**
      * @return HasMany<Account, $this>
      */
     public function account(): HasMany
@@ -99,10 +89,40 @@ class User extends Authenticatable implements PasskeyUser
     }
 
     /**
+     * @return HasMany<Transaction, $this>
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    /**
+     * @return HasMany<Transfer, $this>
+     */
+    public function transfers(): HasMany
+    {
+        return $this->hasMany(Transfer::class);
+    }
+
+    /**
      * @return BelongsToMany<Category, $this>
      */
     public function hiddenCategories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'category_user_hidden')->withTimestamps();
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'two_factor_confirmed_at' => 'datetime',
+        ];
     }
 }

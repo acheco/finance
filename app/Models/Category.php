@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -23,6 +24,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property CarbonImmutable|null $updated_at
  * @property-read Collection<int, User> $hiddenByUsers
  * @property-read int|null $hidden_by_users_count
+ * @property-read Collection<int, Transaction> $transactions
+ * @property-read int|null $transactions_count
  * @property-read User|null $user
  *
  * @method static \Database\Factories\CategoryFactory factory($count = null, $state = [])
@@ -61,6 +64,14 @@ class Category extends Model
     public function hiddenByUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'category_user_hidden')->withTimestamps();
+    }
+
+    /**
+     * @return HasMany<Transaction, $this>
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 
     /**

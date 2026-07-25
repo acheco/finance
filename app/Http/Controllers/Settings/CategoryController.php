@@ -56,6 +56,8 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request): RedirectResponse
     {
+        Gate::authorize('create', Category::class);
+
         $request->user()->categories()->create([
             ...$request->validated(),
             'slug' => Str::slug($request->name),

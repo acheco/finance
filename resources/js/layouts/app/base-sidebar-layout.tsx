@@ -11,6 +11,7 @@ import { AppSidebar } from '@/components/app-sidebar';
 import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import AppMobileNavbar from '@/components/AppMobileNavbar';
 import { dashboard } from '@/routes';
+import { index as transactions } from '@/routes/transactions';
 import type { AppLayoutProps, NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -21,7 +22,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Transactions',
-        href: '#',
+        href: transactions(),
         icon: ArrowsDownUpIcon,
     },
     {
@@ -44,6 +45,7 @@ const mainNavItems: NavItem[] = [
 export default function AppSidebarLayout({
     children,
     breadcrumbs = [],
+    headerAction,
 }: AppLayoutProps) {
     return (
         <AppShell variant="sidebar">
@@ -52,7 +54,10 @@ export default function AppSidebarLayout({
                 variant="sidebar"
                 className="h-screen space-y-8 overflow-x-hidden bg-beige-100 px-4 py-6 md:px-10 md:py-8"
             >
-                <AppSidebarHeader breadcrumbs={breadcrumbs} />
+                <AppSidebarHeader
+                    breadcrumbs={breadcrumbs}
+                    headerAction={headerAction}
+                />
                 {children}
                 <AppMobileNavbar items={mainNavItems} />
             </AppContent>

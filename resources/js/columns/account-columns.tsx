@@ -1,5 +1,4 @@
 import { DotsThreeIcon } from '@phosphor-icons/react';
-import type { ColumnDef } from '@/components/data-table';
 import AccountForm from '@/components/modals/AccountForm';
 import DeleteAccount from '@/components/modals/DeleteAccount';
 import { Button } from '@/components/ui/button';
@@ -13,6 +12,7 @@ import {
 import { DynamicIcon } from '@/components/ui/icon';
 import { cn, currencyFormatter } from '@/lib/utils';
 import type { Account } from '@/types/account';
+import type { ColumnDef } from '@/types/datatable';
 
 export const AccountColumns: ColumnDef<Account>[] = [
     {
