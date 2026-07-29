@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBudgetRequest;
 use App\Http\Requests\UpdateBudgetRequest;
 use App\Models\Budget;
+use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -15,7 +17,36 @@ class BudgetController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('budgets');
+        $budgets = Budget::withRecentCategoryTransactions(Auth::user())
+            ->paginate(10)
+            ->withQueryString()
+            ->through(fn (Budget $budget) => [
+                'id' => $budget->id,
+                'user_id' => $budget->user_id,
+                'category' => [
+                    'id' => $budget->category->id,
+                    'name' => $budget->category->name,
+                    'color' => $budget->category->color,
+                    'icon' => $budget->category->icon,
+                    'transactions' => $budget->category->transactions
+                        ->map(fn (Transaction $transaction): array => [
+                            'id' => $transaction->id,
+                            'recipient' => $transaction->recipient,
+                            'amount' => (float) $transaction->amount,
+                            'date' => $transaction->date->format('Y-m-d'),
+                            'type' => $transaction->type->value,
+                        ])
+                        ->values()
+                        ->all(),
+                ],
+                'maximum' => (float) $budget->maximum,
+                'spent' => (float) $budget->spent,
+                'created_at' => $budget->created_at->toISOString(),
+            ]);
+
+        return Inertia::render('budgets', [
+            'budgets' => $budgets,
+        ]);
     }
 
     /**

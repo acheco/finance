@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Budget;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,7 @@ class BudgetFactory extends Factory
     {
         return [
             'user_id' => 1,
-            'category_id' => 1,
+            'category_id' => Category::factory(),
             'maximum' => fake()->randomFloat(2, 50, 5000),
         ];
     }
