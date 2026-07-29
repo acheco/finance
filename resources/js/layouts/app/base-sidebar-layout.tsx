@@ -13,6 +13,7 @@ import AppMobileNavbar from '@/components/AppMobileNavbar';
 import { dashboard } from '@/routes';
 import { index as transactions } from '@/routes/transactions';
 import type { AppLayoutProps, NavItem } from '@/types';
+import { index as budget } from '@/routes/budgets';
 
 const mainNavItems: NavItem[] = [
     {
@@ -27,7 +28,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Budgets',
-        href: '#',
+        href: budget(),
         icon: ChartDonutIcon,
     },
     {

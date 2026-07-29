@@ -68,7 +68,7 @@ class TransactionController extends Controller
                 'raw_date' => $transaction->date->format('Y-m-d'),
             ]);
 
-        return Inertia::render('Transaction', [
+        return Inertia::render('transaction', [
             'transactions' => $transactions,
             'filters' => [
                 'search' => request('search'),
@@ -101,6 +101,18 @@ class TransactionController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Transaction created.')]);
 
         return redirect()->back();
+    }
+
+    /**
+     * Apply a transaction's effect on its account balance.
+     */
+    private function applyBalanceChange(Account $account, TransactionType $type, string|float $amount): void
+    {
+        match ($type) {
+            TransactionType::Income => $account->increment('balance', (float) $amount),
+            TransactionType::Expense => $account->decrement('balance', (float) $amount),
+            TransactionType::TransferIn, TransactionType::TransferOut => null,
+        };
     }
 
     /**
@@ -137,6 +149,18 @@ class TransactionController extends Controller
     }
 
     /**
+     * Reverse a transaction's effect on its account balance.
+     */
+    private function reverseBalanceChange(Account $account, TransactionType $type, string|float $amount): void
+    {
+        match ($type) {
+            TransactionType::Income => $account->decrement('balance', (float) $amount),
+            TransactionType::Expense => $account->increment('balance', (float) $amount),
+            TransactionType::TransferIn, TransactionType::TransferOut => null,
+        };
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @throws Throwable
@@ -162,29 +186,5 @@ class TransactionController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Transaction deleted.')]);
 
         return redirect()->back();
-    }
-
-    /**
-     * Apply a transaction's effect on its account balance.
-     */
-    private function applyBalanceChange(Account $account, TransactionType $type, string|float $amount): void
-    {
-        match ($type) {
-            TransactionType::Income => $account->increment('balance', (float) $amount),
-            TransactionType::Expense => $account->decrement('balance', (float) $amount),
-            TransactionType::TransferIn, TransactionType::TransferOut => null,
-        };
-    }
-
-    /**
-     * Reverse a transaction's effect on its account balance.
-     */
-    private function reverseBalanceChange(Account $account, TransactionType $type, string|float $amount): void
-    {
-        match ($type) {
-            TransactionType::Income => $account->decrement('balance', (float) $amount),
-            TransactionType::Expense => $account->increment('balance', (float) $amount),
-            TransactionType::TransferIn, TransactionType::TransferOut => null,
-        };
     }
 }
