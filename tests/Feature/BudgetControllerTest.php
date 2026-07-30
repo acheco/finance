@@ -27,24 +27,21 @@ test('the index page returns budgets shaped for the frontend', function () {
         ->get(route('budgets.index'))
         ->assertInertia(fn (Assert $page) => $page
             ->component('budgets')
-            ->has('budgets.data', 1)
-            ->where('budgets.data.0.id', $budget->id)
-            ->where('budgets.data.0.user_id', $user->id)
-            ->where('budgets.data.0.maximum', 500.75)
-            ->where('budgets.data.0.spent', 42.5)
-            ->where('budgets.data.0.category.id', $category->id)
-            ->where('budgets.data.0.category.name', $category->name)
-            ->where('budgets.data.0.category.color', $category->color)
-            ->where('budgets.data.0.category.icon', $category->icon)
-            ->has('budgets.data.0.category.transactions', 1)
-            ->where('budgets.data.0.category.transactions.0.id', $transaction->id)
-            ->where('budgets.data.0.category.transactions.0.recipient', 'Whole Foods')
-            ->where('budgets.data.0.category.transactions.0.amount', 42.5)
-            ->where('budgets.data.0.category.transactions.0.date', $transaction->date->format('Y-m-d'))
-            ->where('budgets.data.0.category.transactions.0.type', 'expense')
-            ->has('budgets.current_page')
-            ->has('budgets.per_page')
-            ->has('budgets.total'));
+            ->has('budgets', 1)
+            ->where('budgets.0.id', $budget->id)
+            ->where('budgets.0.user_id', $user->id)
+            ->where('budgets.0.maximum', 500.75)
+            ->where('budgets.0.spent', 42.5)
+            ->where('budgets.0.category.id', $category->id)
+            ->where('budgets.0.category.name', $category->name)
+            ->where('budgets.0.category.color', $category->color)
+            ->where('budgets.0.category.icon', $category->icon)
+            ->has('budgets.0.category.transactions', 1)
+            ->where('budgets.0.category.transactions.0.id', $transaction->id)
+            ->where('budgets.0.category.transactions.0.recipient', 'Whole Foods')
+            ->where('budgets.0.category.transactions.0.amount', 42.5)
+            ->where('budgets.0.category.transactions.0.date', $transaction->date->format('Y-m-d'))
+            ->where('budgets.0.category.transactions.0.type', 'expense'));
 });
 
 test('a user only sees their own budgets on the index page', function () {
@@ -55,5 +52,5 @@ test('a user only sees their own budgets on the index page', function () {
 
     $this->actingAs($user)
         ->get(route('budgets.index'))
-        ->assertInertia(fn (Assert $page) => $page->has('budgets.data', 0));
+        ->assertInertia(fn (Assert $page) => $page->has('budgets', 0));
 });

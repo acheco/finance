@@ -1,5 +1,3 @@
-import type { PaginatedResponse } from '@/types/pagination';
-
 export interface Budget {
     id: number;
     user_id: number;
@@ -20,5 +18,3 @@ export interface Budget {
     spent: number;
     created_at: string;
 }
-
-export type PaginatedBudget = PaginatedResponse<Budget>;

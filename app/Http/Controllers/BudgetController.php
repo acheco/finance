@@ -18,9 +18,8 @@ class BudgetController extends Controller
     public function index(): Response
     {
         $budgets = Budget::withRecentCategoryTransactions(Auth::user())
-            ->paginate(10)
-            ->withQueryString()
-            ->through(fn (Budget $budget) => [
+            ->get()
+            ->map(fn (Budget $budget) => [
                 'id' => $budget->id,
                 'user_id' => $budget->user_id,
                 'category' => [
@@ -42,7 +41,8 @@ class BudgetController extends Controller
                 'maximum' => (float) $budget->maximum,
                 'spent' => (float) $budget->spent,
                 'created_at' => $budget->created_at->toISOString(),
-            ]);
+            ])
+            ->values();
 
         return Inertia::render('budgets', [
             'budgets' => $budgets,
