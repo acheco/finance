@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateBudgetRequest;
 use App\Models\Budget;
 use App\Models\Transaction;
 use DateTimeZone;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -69,23 +70,37 @@ class BudgetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBudgetRequest $request)
+    public function store(StoreBudgetRequest $request): RedirectResponse
     {
-        //
+        Gate::authorize('create', Budget::class);
+
+        $request->user()->budgets()->create($request->validated());
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Budget created.')]);
+
+        return redirect()->back();
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBudgetRequest $request, Budget $budget)
+    public function update(UpdateBudgetRequest $request, Budget $budget): RedirectResponse
     {
-        //
+
+        gate::authorize('update', $budget);
+
+        $request->user()->budgets()->update($request->validated());
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Budget updated.')]);
+
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Budget $budget)
+    public function destroy(Budget $budget): RedirectResponse
     {
         Gate::authorize('delete', $budget);
 

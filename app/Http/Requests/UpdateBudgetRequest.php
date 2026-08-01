@@ -23,10 +23,23 @@ class UpdateBudgetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'amount' => ['required', 'numeric', 'min:0'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date', 'after:start_date'],
+            'category_id' => [
+                'required',
+                'exists:categories,id',
+            ],
+            'maximum' => 'required|numeric|gt:0',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'category_id.unique' => 'This budget already exists for the selected category. Please choose a different category.',
         ];
     }
 }

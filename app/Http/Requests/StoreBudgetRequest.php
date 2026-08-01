@@ -24,10 +24,16 @@ class StoreBudgetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'amount' => ['required', 'numeric', 'min:0'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date', 'after:start_date'],
+            'user_id' => 'exists:users,id',
+            'category_id' => 'required|exists:categories,id|unique:budgets,category_id,NULL,id,user_id,' . $this->user()->id,
+            'maximum' => 'required|numeric|gt:0',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'category_id.unique' => 'This budget already exists for the selected category. Please choose a different category.',
         ];
     }
 }
