@@ -25,7 +25,7 @@ class StoreBudgetRequest extends FormRequest
     {
         return [
             'user_id' => 'exists:users,id',
-            'category_id' => 'required|exists:categories,id|unique:budgets,category_id,NULL,id,user_id,' . $this->user()->id,
+            'category_id' => 'required|exists:categories,id|unique:budgets,category_id,NULL,id,user_id,'.$this->user()->id,
             'maximum' => 'required|numeric|gt:0',
         ];
     }

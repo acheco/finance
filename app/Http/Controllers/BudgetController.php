@@ -24,7 +24,7 @@ class BudgetController extends Controller
 
         $budgets = Budget::withRecentCategoryTransactions(Auth::user(), $this->resolveTimezone($request))
             ->get()
-            ->map(fn(Budget $budget) => [
+            ->map(fn (Budget $budget) => [
                 'id' => $budget->id,
                 'user_id' => $budget->user_id,
                 'category' => [
@@ -33,18 +33,18 @@ class BudgetController extends Controller
                     'color' => $budget->category->color,
                     'icon' => $budget->category->icon,
                     'transactions' => $budget->category->transactions
-                        ->map(fn(Transaction $transaction): array => [
+                        ->map(fn (Transaction $transaction): array => [
                             'id' => $transaction->id,
                             'recipient' => $transaction->recipient,
-                            'amount' => (float)$transaction->amount,
+                            'amount' => (float) $transaction->amount,
                             'date' => $transaction->date->format('Y-m-d'),
                             'type' => $transaction->type->value,
                         ])
                         ->values()
                         ->all(),
                 ],
-                'maximum' => (float)$budget->maximum,
-                'spent' => (float)$budget->spent,
+                'maximum' => (float) $budget->maximum,
+                'spent' => (float) $budget->spent,
                 'created_at' => $budget->created_at->toISOString(),
             ])
             ->values();
@@ -88,7 +88,7 @@ class BudgetController extends Controller
     public function update(UpdateBudgetRequest $request, Budget $budget): RedirectResponse
     {
 
-        gate::authorize('update', $budget);
+        Gate::authorize('update', $budget);
 
         $request->user()->budgets()->update($request->validated());
 
