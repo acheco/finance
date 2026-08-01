@@ -5,6 +5,7 @@ use App\Models\Budget;
 use App\Models\Category;
 use App\Models\Transaction;
 use App\Models\User;
+use Carbon\CarbonImmutable;
 
 test('the scope only returns budgets belonging to the given user', function () {
     $user = User::factory()->create();
@@ -135,4 +136,33 @@ test('the scope does not leak another user\'s transactions on a shared category'
     expect($result->category->transactions)->toHaveCount(1)
         ->and($result->category->transactions->first()->is($ownTransaction))->toBeTrue()
         ->and((float) $result->spent)->toBe(25.0);
+});
+
+test('the scope resolves the current month using the given timezone', function () {
+    // Just after midnight UTC on Aug 1st, but still July 31st in New York.
+    CarbonImmutable::setTestNow(CarbonImmutable::parse('2026-08-01 00:16:00', 'UTC'));
+
+    $user = User::factory()->create();
+    $category = Category::factory()->for($user)->create();
+    $account = Account::factory()->for($user)->create();
+    $budget = Budget::factory()->for($user)->for($category)->create();
+
+    Transaction::factory()->for($user)->create([
+        'account_id' => $account->id,
+        'category_id' => $category->id,
+        'transfer_id' => null,
+        'type' => 'expense',
+        'amount' => 40,
+        'date' => '2026-07-31',
+    ]);
+
+    $utcResult = Budget::withRecentCategoryTransactions($user)->find($budget->id);
+    $localResult = Budget::withRecentCategoryTransactions($user, 'America/La_Paz')->find($budget->id);
+
+    expect($utcResult->category->transactions)->toHaveCount(0)
+        ->and((float) $utcResult->spent)->toBe(0.0)
+        ->and($localResult->category->transactions)->toHaveCount(1)
+        ->and((float) $localResult->spent)->toBe(40.0);
+
+    CarbonImmutable::setTestNow();
 });

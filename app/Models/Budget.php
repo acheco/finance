@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\DB;
  * @method static Builder<static>|Budget whereMaximum($value)
  * @method static Builder<static>|Budget whereUpdatedAt($value)
  * @method static Builder<static>|Budget whereUserId($value)
- * @method static Builder<static>|Budget withRecentCategoryTransactions(User $user)
+ * @method static Builder<static>|Budget withRecentCategoryTransactions(User $user, ?string $timezone = null)
  *
  * @mixin Eloquent
  */
@@ -65,13 +65,19 @@ class Budget extends Model
      * along with the category's 3 most recent transactions for the current month,
      * plus a `spent` attribute with the category's total expenses for the current month.
      *
+     * "Current month" is resolved in the given timezone (falling back to the
+     * application's default timezone) so users aren't shown an empty month
+     * right around midnight UTC when it's still the previous/next month in
+     * their own timezone.
+     *
      * @param  Builder<Budget>  $query
      * @return Builder<Budget>
      */
-    public function scopeWithRecentCategoryTransactions(Builder $query, User $user): Builder
+    public function scopeWithRecentCategoryTransactions(Builder $query, User $user, ?string $timezone = null): Builder
     {
-        $startOfMonth = CarbonImmutable::now()->startOfMonth();
-        $endOfMonth = CarbonImmutable::now()->endOfMonth();
+        $now = CarbonImmutable::now($timezone ?? config('app.timezone'));
+        $startOfMonth = $now->startOfMonth();
+        $endOfMonth = $now->endOfMonth();
 
         $rankedTransactions = DB::table('transactions')
             ->selectRaw('id, ROW_NUMBER() OVER (PARTITION BY category_id ORDER BY date DESC, id DESC) AS rn')

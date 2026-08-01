@@ -27,7 +27,7 @@ export function DonutChart<T extends Record<string, unknown>>({
                                                                   centerLabel,
                                                                   innerRadius = 80,
                                                                   strokeWidth = 5,
-                                                                  className = "mx-auto aspect-square w-[303px] max-h-70 md:w-[296px] lg:w-[364px]",
+                                                                  className = "mx-auto aspect-square w-[303px] max-h-70 md:w-74 lg:w-94",
                                                               }: DonutChartProps<T>) {
     return (
         <ChartContainer config={config} className={className}>
