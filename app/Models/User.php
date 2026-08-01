@@ -34,6 +34,8 @@ use Laravel\Passkeys\Passkey;
  * @property CarbonImmutable|null $two_factor_confirmed_at
  * @property-read Collection<int, Account> $account
  * @property-read int|null $account_count
+ * @property-read Collection<int, Budget> $budgets
+ * @property-read int|null $budgets_count
  * @property-read Collection<int, Category> $categories
  * @property-read int|null $categories_count
  * @property-read Collection<int, Category> $hiddenCategories
@@ -102,6 +104,14 @@ class User extends Authenticatable implements PasskeyUser
     public function transfers(): HasMany
     {
         return $this->hasMany(Transfer::class);
+    }
+
+    /**
+     * @return HasMany<Budget, $this>
+     */
+    public function budgets(): HasMany
+    {
+        return $this->hasMany(Budget::class);
     }
 
     /**

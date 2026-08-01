@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\CarbonImmutable;
 use Database\Factories\CategoryFactory;
+use Eloquent;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -28,8 +29,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int|null $transactions_count
  * @property-read User|null $user
  *
- * @method static \Database\Factories\CategoryFactory factory($count = null, $state = [])
- * @method static Builder<static>|Category forUser(\App\Models\User $user)
+ * @method static CategoryFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Category forUser(User $user)
  * @method static Builder<static>|Category newModelQuery()
  * @method static Builder<static>|Category newQuery()
  * @method static Builder<static>|Category query()
@@ -42,7 +43,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static Builder<static>|Category whereUpdatedAt($value)
  * @method static Builder<static>|Category whereUserId($value)
  *
- * @mixin \Eloquent
+ * @property-read Collection<int, Budget> $budgets
+ * @property-read int|null $budgets_count
+ *
+ * @mixin Eloquent
  */
 #[Fillable(['name', 'color', 'icon', 'slug'])]
 class Category extends Model
@@ -72,6 +76,14 @@ class Category extends Model
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    /**
+     * @return HasMany<Budget, $this>
+     */
+    public function budgets(): HasMany
+    {
+        return $this->hasMany(Budget::class);
     }
 
     /**

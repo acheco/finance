@@ -11,6 +11,7 @@ import { AppSidebar } from '@/components/app-sidebar';
 import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import AppMobileNavbar from '@/components/AppMobileNavbar';
 import { dashboard } from '@/routes';
+import { index as budget } from '@/routes/budgets';
 import { index as transactions } from '@/routes/transactions';
 import type { AppLayoutProps, NavItem } from '@/types';
 
@@ -27,7 +28,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Budgets',
-        href: '#',
+        href: budget(),
         icon: ChartDonutIcon,
     },
     {
