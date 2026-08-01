@@ -1,10 +1,11 @@
-import { Head, setLayoutProps } from '@inertiajs/react';
+import { Head, Link, setLayoutProps } from '@inertiajs/react';
 import {
     CaretRightIcon,
     ChartDonutIcon,
     DotsThreeIcon,
 } from '@phosphor-icons/react';
 import { Fragment, useEffect } from 'react';
+import transactionController from '@/actions/App/Http/Controllers/TransactionController';
 import { BudgetDonutChart } from '@/components/budget-donut-chart';
 import BudgetForm from '@/components/modals/budget-form';
 import DeleteBudgetModal from '@/components/modals/delete-budget';
@@ -231,14 +232,26 @@ export default function Budgets({ budgets }: BudgetProps) {
                                                     <h3 className="preset-3 text-grey-900">
                                                         Latest Spending
                                                     </h3>
-                                                    <p className="flex cursor-pointer items-center gap-3 preset-4 text-grey-500 hover:underline">
+                                                    <Link
+                                                        href={transactionController.index(
+                                                            {
+                                                                query: {
+                                                                    category:
+                                                                        budget
+                                                                            .category
+                                                                            .id,
+                                                                },
+                                                            },
+                                                        )}
+                                                        className="flex cursor-pointer items-center gap-3 preset-4 text-grey-500 hover:underline"
+                                                    >
                                                         See All
                                                         <CaretRightIcon
                                                             size={18}
                                                             color="#696868"
                                                             weight="fill"
                                                         />
-                                                    </p>
+                                                    </Link>
                                                 </div>
 
                                                 <Table>
