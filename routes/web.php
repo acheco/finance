@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\RecurringBillController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransferController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('transfers', TransferController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('budgets', BudgetController::class)->only(['index', 'store', 'update', 'destroy']);
+
+    Route::resource('recurring-bills', RecurringBillController::class)->only(['index', 'store', 'update', 'destroy']);
 
 });
 
