@@ -30,7 +30,8 @@ test('generating bills creates a transaction and advances the next due date', fu
 });
 
 test('generating bills twice does not duplicate the transaction', function () {
-    $bill = RecurringBill::factory()->create([
+    $user = User::factory()->create();
+    $bill = RecurringBill::factory()->for($user)->create([
         'frequency' => 'monthly',
         'due_day' => 1,
         'next_due_date' => now()->subDay(),

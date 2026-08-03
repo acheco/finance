@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\RecurringBill;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,8 +20,9 @@ class RecurringBillFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => Auth()->user()?->id ?? 1,
             'account_id' => Account::factory(),
+            'category_id' => Category::factory(),
             'name' => fake()->words(2, true),
             'amount' => fake()->randomFloat(2, 5, 500),
             'frequency' => 'monthly',

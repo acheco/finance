@@ -6,9 +6,12 @@ use App\Http\Requests\StoreRecurringBillRequest;
 use App\Http\Requests\UpdateRecurringBillRequest;
 use App\Models\RecurringBill;
 use App\Services\RecurringBillDateCalculator;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Number;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -23,14 +26,44 @@ class RecurringBillController extends Controller
      */
     public function index(): Response
     {
-        $bills = RecurringBill::query()
-            ->where('user_id', auth()->id())
-            ->with(['account', 'category'])
-            ->orderBy('next_due_date')
-            ->get();
+
+        $sortOptions = [
+            'latest' => ['next_due_date', 'desc'],
+            'oldest' => ['next_due_date', 'asc'],
+            'a_to_z' => ['name', 'asc'],
+            'z_to_a' => ['name', 'desc'],
+            'highest' => ['amount', 'desc'],
+            'lowest' => ['amount', 'asc'],
+        ];
+
+        [$sortColumn, $sortDirection] = $sortOptions[request('sort')] ?? $sortOptions['latest'];
+
+        $bills = RecurringBill::whereBelongsTo(Auth::user())
+            ->with(['category'])
+            ->when(request('search'), function ($query, $search) {
+                $query->where('name', 'ilike', "%{$search}%");
+            })
+            ->orderBy($sortColumn, $sortDirection)
+            ->get()
+            ->map(fn (RecurringBill $bill) => [
+                'id' => $bill->id,
+                'name' => $bill->name,
+                'amount' => $bill->amount,
+                'frequency' => Str::ucfirst($bill->frequency),
+                'due_day' => $bill->due_day !== null ? Number::ordinal($bill->due_day) : null,
+                'status' => $bill->status,
+                'next_due_date' => $bill->next_due_date->format('Y-m-d'),
+                'category' => $bill->category?->only(['id', 'color', 'icon']),
+            ])
+            ->values()
+            ->all();
 
         return Inertia::render('recurring-bills', [
             'bills' => $bills,
+            'filters' => [
+                'search' => request('search'),
+                'sort' => request('sort'),
+            ],
         ]);
     }
 
@@ -43,7 +76,7 @@ class RecurringBillController extends Controller
 
         $data = $request->validated();
 
-        $nextDueDate = $this->dateCalculator->first(now(), $data['frequency'], $data['due_day'] ?? null);
+        $nextDueDate = $this->dateCalculator->first(CarbonImmutable::now(), $data['frequency'], $data['due_day'] ?? null);
 
         RecurringBill::create([
             ...$data,
@@ -67,7 +100,7 @@ class RecurringBillController extends Controller
 
         if (isset($data['frequency']) || array_key_exists('due_day', $data)) {
             $data['next_due_date'] = $this->dateCalculator->first(
-                now(),
+                CarbonImmutable::now(),
                 $data['frequency'] ?? $recurringBill->frequency,
                 $data['due_day'] ?? $recurringBill->due_day
             );
