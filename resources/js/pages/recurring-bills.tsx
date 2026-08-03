@@ -1,12 +1,21 @@
 import { Head, router } from '@inertiajs/react';
 import {
     CheckCircleIcon,
+    DotsThreeIcon,
     ReceiptIcon,
     SortAscendingIcon,
     SortDescendingIcon,
     WarningCircleIcon,
 } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
+import RecurringBillForm from '@/components/modals/recurring-bill-form';
+import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { DynamicIcon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import {
@@ -218,6 +227,7 @@ export default function RecurringBills({
                                 <TableCell>Bill Title</TableCell>
                                 <TableCell>Due Date</TableCell>
                                 <TableCell>Amount</TableCell>
+                                <TableCell />
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -229,11 +239,14 @@ export default function RecurringBills({
                                                 className="grid h-8 w-8 place-content-center rounded-full"
                                                 style={{
                                                     backgroundColor:
-                                                        bill.category.color,
+                                                        bill.category?.color,
                                                 }}
                                             >
                                                 <DynamicIcon
-                                                    name={bill.category.icon}
+                                                    name={
+                                                        bill.category?.icon ??
+                                                        ''
+                                                    }
                                                     width={16}
                                                     height={16}
                                                     color={'#fff'}
@@ -312,6 +325,31 @@ export default function RecurringBills({
                                         })}
                                     >
                                         {currencyFormatter(bill.amount)}
+                                    </TableCell>
+                                    <TableCell>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                >
+                                                    <span className="sr-only">
+                                                        Open menu
+                                                    </span>
+                                                    <DotsThreeIcon size={24} />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent
+                                                align="start"
+                                                className="px-5 py-3"
+                                            >
+                                                <DropdownMenuItem asChild>
+                                                    <RecurringBillForm
+                                                        bill={bill}
+                                                    />
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))}

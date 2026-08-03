@@ -47,10 +47,13 @@ class RecurringBillController extends Controller
             ->get()
             ->map(fn (RecurringBill $bill) => [
                 'id' => $bill->id,
+                'account_id' => $bill->account_id,
                 'name' => $bill->name,
                 'amount' => $bill->amount,
                 'frequency' => Str::ucfirst($bill->frequency),
+                'frequency_raw' => $bill->frequency,
                 'due_day' => $bill->due_day !== null ? Number::ordinal($bill->due_day) : null,
+                'due_day_raw' => $bill->due_day,
                 'status' => $bill->status,
                 'next_due_date' => $bill->next_due_date->format('Y-m-d'),
                 'category' => $bill->category?->only(['id', 'color', 'icon']),
@@ -84,7 +87,7 @@ class RecurringBillController extends Controller
             'next_due_date' => $nextDueDate,
         ]);
 
-        Inertia::flash('success', ['type' => 'success', 'message' => __('Recurring bill created.')]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Recurring bill created.')]);
 
         return redirect()->back();
     }
@@ -108,7 +111,7 @@ class RecurringBillController extends Controller
 
         $recurringBill->update($data);
 
-        Inertia::flash('success', ['type' => 'success', 'message' => __('Recurring bill updated.')]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Recurring bill updated.')]);
 
         return redirect()->back();
     }
@@ -122,7 +125,7 @@ class RecurringBillController extends Controller
 
         $recurringBill->delete();
 
-        Inertia::flash('success', ['type' => 'success', 'message' => __('Recurring bill deleted.')]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Recurring bill deleted.')]);
 
         return redirect()->back();
     }
