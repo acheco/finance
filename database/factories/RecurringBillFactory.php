@@ -20,7 +20,7 @@ class RecurringBillFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => Auth()->user()?->id ?? 1,
+            'user_id' => Auth()->user()->id ?? 1,
             'account_id' => Account::factory(),
             'category_id' => Category::factory(),
             'name' => fake()->words(2, true),
