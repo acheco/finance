@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('telescope:prune --hours=24')->daily();
+Schedule::command('bills:generate')->dailyAt('00:05');

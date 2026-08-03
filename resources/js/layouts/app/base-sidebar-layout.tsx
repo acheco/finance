@@ -12,6 +12,7 @@ import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import AppMobileNavbar from '@/components/AppMobileNavbar';
 import { dashboard } from '@/routes';
 import { index as budget } from '@/routes/budgets';
+import { index as recurringBills } from '@/routes/recurring-bills';
 import { index as transactions } from '@/routes/transactions';
 import type { AppLayoutProps, NavItem } from '@/types';
 
@@ -38,7 +39,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Recurring bills',
-        href: '#',
+        href: recurringBills(),
         icon: ReceiptIcon,
     },
 ];

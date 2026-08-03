@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Enums\TransactionType;
 use Carbon\CarbonImmutable;
 use Database\Factories\TransactionFactory;
+use Eloquent;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,26 +30,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read Transfer|null $transfer
  * @property-read User $user
  *
- * @method static \Database\Factories\TransactionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereAccountId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereRecipient($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereTransferId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereUserId($value)
+ * @method static TransactionFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Transaction newModelQuery()
+ * @method static Builder<static>|Transaction newQuery()
+ * @method static Builder<static>|Transaction query()
+ * @method static Builder<static>|Transaction whereAccountId($value)
+ * @method static Builder<static>|Transaction whereAmount($value)
+ * @method static Builder<static>|Transaction whereCategoryId($value)
+ * @method static Builder<static>|Transaction whereCreatedAt($value)
+ * @method static Builder<static>|Transaction whereDate($value)
+ * @method static Builder<static>|Transaction whereDescription($value)
+ * @method static Builder<static>|Transaction whereId($value)
+ * @method static Builder<static>|Transaction whereRecipient($value)
+ * @method static Builder<static>|Transaction whereTransferId($value)
+ * @method static Builder<static>|Transaction whereType($value)
+ * @method static Builder<static>|Transaction whereUpdatedAt($value)
+ * @method static Builder<static>|Transaction whereUserId($value)
  *
- * @mixin \Eloquent
+ * @property-read RecurringBill|null $recurringBill
+ *
+ * @mixin Eloquent
  */
-#[Fillable(['user_id', 'account_id', 'category_id', 'transfer_id', 'recipient', 'amount', 'type', 'date', 'description'])]
+#[Fillable(['user_id', 'account_id', 'category_id', 'transfer_id', 'recipient', 'amount', 'type', 'date', 'description', 'recurring_bill_id'])]
 class Transaction extends Model
 {
     /** @use HasFactory<TransactionFactory> */
@@ -88,5 +92,13 @@ class Transaction extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
+    }
+
+    /**
+     * @return BelongsTo<RecurringBill, $this>
+     */
+    public function recurringBill(): BelongsTo
+    {
+        return $this->belongsTo(RecurringBill::class);
     }
 }
